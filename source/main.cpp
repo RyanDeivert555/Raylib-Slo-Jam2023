@@ -10,24 +10,25 @@ int main() {
 	Sprite::Init();
 
 	Spaceship test(Sprite::playerShipId);
-	test.AddPosition(Vector2{500.0f, 500.0f});
+	test.Position = Vector2{500.0f, 500.0f};
 
 	while (!WindowShouldClose()) {
 		if (IsKeyDown(KEY_A)) {
-			test.AddRotation(-5.0f);
+			test.Rotation -= 5.0f;
 		}
 		if (IsKeyDown(KEY_D)) {
-			test.AddRotation(5.0f);
+			test.Rotation += 5.0f;
 		}
 		if (IsKeyDown(KEY_W)) {
-			test.SetRotationalVelocity(500.0f);
+			test.RotationalVelocity = 500.0f;
 		} else {
-			test.SetRotationalVelocity(250.0f);
+			test.RotationalVelocity = 250.0f;
 		}
 		test.Update();
 		BeginDrawing();
 		ClearBackground(WHITE);
 		test.Draw();
+		DrawFPS(0, 0);
 		EndDrawing();
 	}
 	Sprite::UnloadTextures();
