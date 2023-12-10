@@ -34,7 +34,12 @@ endif()
 
 # Our Project
 
-add_executable(${PROJECT_NAME} source/main.cpp)
+add_executable(${PROJECT_NAME} source/main.cpp
+  include/game.h
+  include/sprite.h source/sprite.cpp
+  include/entity.h source/entity.cpp
+  include/spaceship.h source/spaceship.cpp
+)
 #set(raylib_VERBOSE 1)
 target_link_libraries(${PROJECT_NAME} raylib)
 
