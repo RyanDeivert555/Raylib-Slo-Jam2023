@@ -12,6 +12,7 @@ public:
 	static constexpr float DefaultCooldown = 0.4f;
 
 	Spaceship(std::size_t id);
+	void TakeDamage(float damage);
 	void Update() override;
 	void Draw() const override;
 };

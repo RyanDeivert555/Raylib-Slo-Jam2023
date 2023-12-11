@@ -19,6 +19,16 @@ Spaceship::Spaceship(std::size_t id) {
 	CurrentAttackCooldown = AttackCooldown;
 }
 
+void Spaceship::TakeDamage(float damage) {
+	Shield -= damage;
+	if (Shield <= 0) {
+		Health -= damage;
+	}
+	if (Health <= 0) {
+		Kill();
+	}
+}
+
 void Spaceship::Update() {
 	if (Rotation >= 360.0f) {
 		Rotation -= 360.0f;
@@ -38,5 +48,5 @@ void Spaceship::Update() {
 
 void Spaceship::Draw() const {
 	// hack to make sure ship is the correct rotation
-	Sprite::Draw(TextureId, Position, Scale, Rotation + 90.0f, Sprite::TextureCenter(TextureId));
+	Sprite::Draw(TextureId, Position, Scale, Rotation + 90.0f, Sprite::Center(TextureId));
 }

@@ -4,9 +4,10 @@
 
 Rectangle Entity::GetRect() const {
 	Vector2 size = Sprite::Size(TextureId);
+	// get center rect
 	Rectangle rect = Rectangle{
-		Position.x,
-		Position.y,
+		Position.x - size.x / 2.0f,
+		Position.y - size.y / 2.0f,
 		size.x * Scale.x,
 		size.y * Scale.y
 	};

@@ -1,7 +1,7 @@
 #include "raylib.h"
 #include "../include/game.h"
 #include "../include/sprite.h"
-#include "../include/spaceship.h"
+#include "../include/world.h"
 
 int main() {
 	SetTraceLogLevel(LOG_WARNING);
@@ -9,25 +9,29 @@ int main() {
 	SetTargetFPS(60);
 	Sprite::Init();
 
-	Spaceship test(Sprite::playerShipId);
-	test.Position = Vector2{500.0f, 500.0f};
+	for (int i = 0; i < 5; i++) {
+		Spaceship& ship = World::SpawnSpaceship(Sprite::redShipId);
+		ship.Position.x += 100.0f * i;
+	}
 
 	while (!WindowShouldClose()) {
-		if (IsKeyDown(KEY_A)) {
-			test.Rotation -= 5.0f;
+		for (auto& ship : World::spaceships) {
+			if (IsKeyDown(KEY_A)) {
+				ship.Rotation -= 5.0f;
+			}
+			if (IsKeyDown(KEY_D)) {
+				ship.Rotation += 5.0f;
+			}
+			if (IsKeyDown(KEY_W)) {
+				ship.RotationalVelocity = 500.0f;
+			} else {
+				ship.RotationalVelocity = 250.0f;
+			}
 		}
-		if (IsKeyDown(KEY_D)) {
-			test.Rotation += 5.0f;
-		}
-		if (IsKeyDown(KEY_W)) {
-			test.RotationalVelocity = 500.0f;
-		} else {
-			test.RotationalVelocity = 250.0f;
-		}
-		test.Update();
+		World::UpdateSpaceships();
 		BeginDrawing();
 		ClearBackground(WHITE);
-		test.Draw();
+		World::DrawSpaceships();
 		DrawFPS(0, 0);
 		EndDrawing();
 	}

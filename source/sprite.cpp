@@ -4,7 +4,7 @@
 
 namespace Sprite {
 	std::vector<Texture2D> textures{};
-	std::size_t playerShipId = 0;
+	std::size_t redShipId = 0;
 	std::size_t blueProjectileId = 0;
 
 	std::size_t AddTexture(const char *fileName) {
@@ -14,7 +14,7 @@ namespace Sprite {
 	}
 
 	void Init() {
-		playerShipId = AddTexture("../assets/playerShip.png");
+		redShipId = AddTexture("../assets/redShip.png");
 		blueProjectileId = AddTexture("../assets/blueProjectile.png");
 	}
 
@@ -31,7 +31,7 @@ namespace Sprite {
 		return size;
 	}
 
-	Vector2 TextureCenter(std::size_t id) {
+	Vector2 Center(std::size_t id) {
 		Vector2 center = Size(id);
 		center.x /= 2.0f;
 		center.y /= 2.0f;
