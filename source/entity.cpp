@@ -22,4 +22,5 @@ bool Entity::Collide(const Entity& other) const {
 
 void Entity::Kill() {
 	Alive = false;
+	ShouldDraw = false;
 }

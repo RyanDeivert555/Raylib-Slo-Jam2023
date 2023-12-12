@@ -1,37 +1,40 @@
 #include "raylib.h"
-#include "../include/game.h"
 #include "../include/sprite.h"
 #include "../include/world.h"
 
 int main() {
 	SetTraceLogLevel(LOG_WARNING);
-	InitWindow(windowWidth, windowHeight, "GameJame2023");
+	InitWindow(windowWidth, windowHeight, "GameJam2023");
 	SetTargetFPS(60);
 	Sprite::Init();
 
 	for (int i = 0; i < 5; i++) {
 		Spaceship& ship = World::SpawnSpaceship(Sprite::redShipId);
 		ship.Position.x += 100.0f * i;
+		ship.Position.y += 100.0f * i;
 	}
 
 	while (!WindowShouldClose()) {
 		for (auto& ship : World::spaceships) {
 			if (IsKeyDown(KEY_A)) {
-				ship.Rotation -= 5.0f;
+				ship.Rotation -= 150.0f * GetFrameTime();
 			}
 			if (IsKeyDown(KEY_D)) {
-				ship.Rotation += 5.0f;
+				ship.Rotation += 150.0f * GetFrameTime();
 			}
 			if (IsKeyDown(KEY_W)) {
-				ship.RotationalVelocity = 500.0f;
+				ship.Speed = 500.0f;
 			} else {
-				ship.RotationalVelocity = 250.0f;
+				ship.Speed = 250.0f;
+			}
+			if (IsKeyDown(KEY_SPACE)) {
+				ship.Shoot();
 			}
 		}
-		World::UpdateSpaceships();
+		World::Update();
 		BeginDrawing();
 		ClearBackground(WHITE);
-		World::DrawSpaceships();
+		World::Draw();
 		DrawFPS(0, 0);
 		EndDrawing();
 	}

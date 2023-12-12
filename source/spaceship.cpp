@@ -1,22 +1,10 @@
 #include "../include/spaceship.h"
 #include "../include/sprite.h"
-#include "raylib.h"
+#include "../include/world.h"
 #include "raymath.h"
-//debug
-#include <iostream>
 
 Spaceship::Spaceship(std::size_t id) {
-	Position = Vector2Zero();
-	Velocity = Vector2Zero();
-	RotationalVelocity = 0.0f;
-	Rotation = 0.0f;
-	Scale = Vector2One();
-	Alive = true;
 	TextureId = id;
-	Health = DefaultHealth;
-	Shield = DefaultShield;
-	AttackCooldown = DefaultCooldown;
-	CurrentAttackCooldown = AttackCooldown;
 }
 
 void Spaceship::TakeDamage(float damage) {
@@ -29,6 +17,24 @@ void Spaceship::TakeDamage(float damage) {
 	}
 }
 
+void Spaceship::Shoot() {
+	if (CurrentAttackCooldown >= 0.0f) {
+		CurrentAttackCooldown -= GetFrameTime();
+		return;
+	}
+	CurrentAttackCooldown = AttackCooldown;
+
+	Vector2 direction = Vector2Normalize(
+		Vector2{
+			cosf(Rotation * DEG2RAD), 
+			sinf(Rotation * DEG2RAD)
+		}
+	);
+	// TODO: remove magic number
+	float speed = 700.0f;
+	World::SpawnBullet(Position, direction, speed, Sprite::blueProjectileId);
+}
+
 void Spaceship::Update() {
 	if (Rotation >= 360.0f) {
 		Rotation -= 360.0f;
@@ -37,16 +43,16 @@ void Spaceship::Update() {
 		Rotation += 360.0f;
 	}
 
-	float cosAngle = cos(Rotation * DEG2RAD) * RotationalVelocity * GetFrameTime();
-	float sinAngle = sin(Rotation * DEG2RAD) * RotationalVelocity * GetFrameTime();
+	float cosAngle = cos(Rotation * DEG2RAD);
+	float sinAngle = sin(Rotation * DEG2RAD);
 
-	Velocity.x = cosAngle;
-	Velocity.y = sinAngle;
+	Direction.x = cosAngle;
+	Direction.y = sinAngle;
 
-	Position = Vector2Add(Position, Velocity);
+	Position = Vector2Add(Position, Vector2Scale(Direction, Speed * GetFrameTime()));
 }
 
 void Spaceship::Draw() const {
 	// hack to make sure ship is the correct rotation
-	Sprite::Draw(TextureId, Position, Scale, Rotation + 90.0f, Sprite::Center(TextureId));
+	Sprite::Draw(TextureId, Position, Scale, Rotation + 90.0f, Sprite::Center(TextureId, Scale));
 }
