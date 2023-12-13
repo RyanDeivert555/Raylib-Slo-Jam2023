@@ -7,6 +7,7 @@ private:
 
 public:
 	static constexpr int MaxLevel = 3;
+	float RotationSpeed{};
 	
 	Asteroid(int level, std::size_t id);
 	void Split();

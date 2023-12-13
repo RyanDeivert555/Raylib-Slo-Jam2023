@@ -1,6 +1,7 @@
 #include "../include/world.h"
 #include "../include/sprite.h"
 #include "raylib.h"
+#include "raymath.h"
 #include <vector>
 #include <type_traits>
 // debug
@@ -12,6 +13,12 @@ namespace World {
 	std::vector<Bullet> bullets{};
 	std::vector<Asteroid> asteroids{};
 	Player player{Sprite::redShipId};
+	Camera2D camera{
+		.offset = Vector2{windowWidth / 2.0f, windowHeight / 2.0f},
+		.target = player.Position,
+		.rotation = 0.0f,
+		.zoom = 1.0f
+	};
 
 	Spaceship& SpawnSpaceship(std::size_t textureId) {
 		spaceships.emplace_back(textureId);
@@ -49,12 +56,13 @@ namespace World {
 
 			float x = rect.x;
 			float y = rect.y;
-			float screenWidth = static_cast<float>(GetScreenWidth());
-			float screenHeight = static_cast<float>(GetScreenHeight());
-			if (x > screenWidth 
-				|| x < 0.0f - rect.width 
-				|| y > screenHeight 
-				|| y <= 0.0f - rect.height) {
+			Vector2 screenOrigin = GetScreenToWorld2D(Vector2Zero(), camera);
+			Vector2 screenBounds = GetScreenToWorld2D(Vector2{windowWidth, windowHeight}, camera);
+
+			if (x < screenOrigin.x - rect.width
+				|| x > screenBounds.x
+				|| y < screenOrigin.y - rect.height
+				|| y > screenBounds.y) {
 				entity.ShouldDraw = false;
 				if constexpr (std::is_same_v<T, Bullet>) {
 					entity.Alive = false;
@@ -63,6 +71,18 @@ namespace World {
 				entity.ShouldDraw = true;
 			}
 		} 
+	}
+
+	void UpdateCamera() {
+		Vector2 position = player.Position;
+		Vector2 direction = player.Direction;
+		Vector2 oppositeDirection = Vector2Negate(direction);
+		float speed = player.Speed;
+		Vector2 velocity = Vector2Scale(oppositeDirection, speed / 2.0f);
+		Vector2 target = Vector2Add(position, velocity);
+		// TODO: make dynamic camera
+		camera.target = player.Position;
+		//camera.rotation = player.Rotation;
 	}
 
 	template<class T>
@@ -96,6 +116,7 @@ namespace World {
 			case GameState::Gameplay:
 			{
 				player.Update();
+				UpdateCamera();
 				UpdateEntities(spaceships);
 				UpdateEntities(bullets);
 				UpdateEntities(asteroids);
@@ -105,6 +126,9 @@ namespace World {
 				CullFromSceen(asteroids);
 				if (IsKeyPressed(KEY_P)) {
 					state = GameState::Paused;
+				}
+				if (IsKeyPressed(KEY_ENTER)) {
+					World::SpawnAsteroid(4, Sprite::asteroid1Id);
 				}
 				break;
 			}
@@ -133,18 +157,22 @@ namespace World {
 
 			case GameState::Gameplay:
 			{
+				BeginMode2D(camera);
 				player.Draw();
 				DrawEntities(bullets);
 				DrawEntities(spaceships);
 				DrawEntities(asteroids);
+				EndMode2D();
 				break;
 			}
 			case GameState::Paused:
 			{
+				BeginMode2D(camera);
 				player.Draw();
 				DrawEntities(bullets);
 				DrawEntities(spaceships);
 				DrawEntities(asteroids);
+				EndMode2D();
 				DrawText("Press P to Unpause", 100, 100, 100, RED);
 				break;
 			}

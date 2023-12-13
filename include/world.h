@@ -1,4 +1,5 @@
 #pragma once
+#include "raylib.h"
 #include "spaceship.h"
 #include "bullet.h"
 #include "asteroid.h"
@@ -21,6 +22,7 @@ namespace World {
 	extern std::vector<Bullet> bullets;
 	extern std::vector<Asteroid> asteroids;
 	extern Player player;
+	extern Camera2D camera;
 
 	Spaceship& SpawnSpaceship(std::size_t textureId);
 	Bullet& SpawnBullet(Vector2 position, Vector2 velocity, float speed, bool fromPlayer, std::size_t textureId);

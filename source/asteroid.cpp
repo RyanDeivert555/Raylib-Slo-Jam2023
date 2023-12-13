@@ -5,6 +5,7 @@
 #include "raymath.h"
 // debug
 #include <iostream>
+#include <cassert>
 
 // helpers
 static Vector2 GetRandomVector2(float xMin, float xMax, float yMin, float yMax) {
@@ -15,35 +16,29 @@ static Vector2 GetRandomVector2(float xMin, float xMax, float yMin, float yMax) 
 	return result;
 }
 
-static Vector2 CenterScreen() {
-	Vector2 result = Vector2 {
-		static_cast<float>(GetScreenWidth()),
-		static_cast<float>(GetScreenHeight())
-	};
-	result.x /= 2.0f;
-	result.y /= 2.0f;
-
-	return result;
-}
-
 static constexpr float Offset = 500.0f;
 
 Asteroid::Asteroid(int level, std::size_t id) {
-	static const Vector2 PossibleSpawnPoints[] = {
+	Vector2 screenOrigin = GetScreenToWorld2D(Vector2Zero(), World::camera);
+	Vector2 screenBounds = GetScreenToWorld2D(Vector2{windowWidth, windowHeight}, World::camera);
+	
+	const Vector2 PossibleSpawnPoints[] = {
 		// top
-		GetRandomVector2(-Offset, GetScreenWidth() + Offset, -Offset, 0.0f),
+		GetRandomVector2(-Offset + screenOrigin.x, screenBounds.x + Offset, -Offset + screenOrigin.y, screenOrigin.y),
 		// bottom
-		GetRandomVector2(-Offset, GetScreenWidth() + Offset, GetScreenHeight(), GetScreenHeight() + Offset),
+		GetRandomVector2(-Offset + screenOrigin.x, screenBounds.x + Offset, screenBounds.y, screenBounds.y + Offset),
 		// left
-		GetRandomVector2(-Offset, 0.0f, -Offset, GetScreenHeight() + Offset),
+		GetRandomVector2(-Offset + screenOrigin.x, screenOrigin.x, -Offset + screenBounds.y, screenBounds.y + Offset),
 		// right
-		GetRandomVector2(GetScreenWidth(), GetScreenWidth() + Offset, -Offset, GetScreenHeight()),
+		GetRandomVector2(screenBounds.x, screenBounds.x + Offset, -Offset + screenOrigin.y, screenBounds.y),
 	};
 
 	TextureId = id;
+	RotationSpeed = static_cast<float>(GetRandomValue(-50, 50));
 	int randIndex = GetRandomValue(0, 3);
 	Position = PossibleSpawnPoints[randIndex];
-	Vector2 target = Vector2Add(CenterScreen(), GetRandomVector2(-Offset, Offset, -Offset, Offset));
+	Vector2 centerScreen = Vector2Scale(screenBounds, 0.5f);
+	Vector2 target = Vector2Add(centerScreen, GetRandomVector2(-Offset, Offset, -Offset, Offset));
 	Direction = Vector2Normalize(Vector2Subtract(target, Position));
 	_level = level;
 	Scale = Vector2Scale(Scale, _level / (MaxLevel * 2.0f));
@@ -62,6 +57,7 @@ void Asteroid::Split() {
 }
 
 void Asteroid::Update() {
+	Rotation += RotationSpeed * GetFrameTime();
 	Position = Vector2Add(Position, Vector2Scale(Direction, Speed * GetFrameTime()));
 }
 

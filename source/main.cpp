@@ -9,9 +9,6 @@ int main() {
 	Sprite::Init();
 
 	while (!WindowShouldClose()) {
-		if (IsKeyPressed(KEY_ENTER)) {
-			World::SpawnAsteroid(4, Sprite::asteroid1Id);
-		}
 		World::Update();
 		BeginDrawing();
 		ClearBackground(WHITE);
