@@ -13,11 +13,14 @@ namespace World {
 	std::vector<Bullet> bullets{};
 	std::vector<Asteroid> asteroids{};
 	Player player{Sprite::redShipId};
+	const float cameraZoomFactor = 2.0f;
+	const float minZoom = 0.5f;
+	const float maxZoom = 1.0f;
 	Camera2D camera{
 		.offset = Vector2{windowWidth / 2.0f, windowHeight / 2.0f},
 		.target = player.Position,
 		.rotation = 0.0f,
-		.zoom = 1.0f
+		.zoom = minZoom
 	};
 
 	Spaceship& SpawnSpaceship(std::size_t textureId) {
@@ -50,9 +53,6 @@ namespace World {
 	void CullFromSceen(std::vector<T> &entities) {
 		for (T& entity : entities) {
 			Rectangle rect = entity.GetRect();
-			Vector2 scale = entity.Scale;
-			rect.width /= scale.x;
-			rect.height /= scale.y;
 
 			float x = rect.x;
 			float y = rect.y;
@@ -74,15 +74,20 @@ namespace World {
 	}
 
 	void UpdateCamera() {
-		Vector2 position = player.Position;
-		Vector2 direction = player.Direction;
-		Vector2 oppositeDirection = Vector2Negate(direction);
-		float speed = player.Speed;
-		Vector2 velocity = Vector2Scale(oppositeDirection, speed / 2.0f);
-		Vector2 target = Vector2Add(position, velocity);
+		Vector2 difference = Vector2Subtract(player.Position, camera.target);
+		float length = Vector2Length(difference);
+		if (length > 10.0f) {
+			float cameraSpeed = std::max(length * 2.0f, 30.0f);
+			camera.target = Vector2Add(camera.target, Vector2Scale(difference, cameraSpeed * GetFrameTime() / length));
+		}
 		// TODO: make dynamic camera
-		camera.target = player.Position;
-		//camera.rotation = player.Rotation;
+		//camera.target = player.Position;
+		if (IsKeyDown(KEY_UP)) {
+			camera.zoom = Clamp(camera.zoom + cameraZoomFactor * GetFrameTime(), minZoom, maxZoom);
+		}
+		if (IsKeyDown(KEY_DOWN)) {
+			camera.zoom = Clamp(camera.zoom - cameraZoomFactor * GetFrameTime(), minZoom, maxZoom);
+		}
 	}
 
 	template<class T>

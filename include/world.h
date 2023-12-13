@@ -17,6 +17,7 @@ enum class GameState {
 };
 
 namespace World {
+	// FIXME: do these need to be extern? might only need to be in this namespace
 	extern GameState state;
 	extern std::vector<Spaceship> spaceships;
 	extern std::vector<Bullet> bullets;
