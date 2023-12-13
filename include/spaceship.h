@@ -8,6 +8,8 @@ public:
 	static constexpr float DefaultCooldown = 0.2f;
 	float Health = DefaultHealth;
 	float Shield = DefaultShield;
+	bool CanShoot = true;
+	bool IsPlayer = false;
 	float AttackCooldown = DefaultCooldown;
 	float CurrentAttackCooldown = AttackCooldown;
 

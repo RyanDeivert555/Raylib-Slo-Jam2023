@@ -52,6 +52,7 @@ Asteroid::Asteroid(int level, std::size_t id) {
 void Asteroid::Split() {
 	Kill();
 	_level--;
+	if (_level <= 0) return;
 	int randIndex = GetRandomValue(0, Sprite::asteroidTextures.size() - 1);
 	std::size_t textureId = Sprite::asteroidTextures[randIndex];
 	for (int i = 0; i < 2; i++) {

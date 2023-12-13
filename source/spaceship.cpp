@@ -2,6 +2,8 @@
 #include "../include/sprite.h"
 #include "../include/world.h"
 #include "raymath.h"
+// debug
+#include <iostream>
 
 Spaceship::Spaceship(std::size_t id) {
 	TextureId = id;
@@ -18,21 +20,24 @@ void Spaceship::TakeDamage(float damage) {
 }
 
 void Spaceship::Shoot() {
-	if (CurrentAttackCooldown >= 0.0f) {
-		CurrentAttackCooldown -= GetFrameTime();
-		return;
-	}
-	CurrentAttackCooldown = AttackCooldown;
-
-	Vector2 direction = Vector2Normalize(
+	if (CanShoot) {
+		Vector2 direction = Vector2Normalize(
 		Vector2{
-			cosf(Rotation * DEG2RAD), 
-			sinf(Rotation * DEG2RAD)
+				cosf(Rotation * DEG2RAD), 
+				sinf(Rotation * DEG2RAD)
+			}
+		);
+		float speed = Speed * 5.0f;
+		World::SpawnBullet(Position, direction, speed, IsPlayer, Sprite::blueProjectileId);
+		CanShoot = false;
+	}
+	else {
+		CurrentAttackCooldown -= GetFrameTime();
+		if (CurrentAttackCooldown <= 0.0f) {
+			CurrentAttackCooldown = AttackCooldown;
+			CanShoot = true;
 		}
-	);
-	// TODO: remove magic number
-	float speed = 700.0f;
-	World::SpawnBullet(Position, direction, speed, Sprite::blueProjectileId);
+	}
 }
 
 void Spaceship::Update() {

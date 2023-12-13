@@ -38,6 +38,7 @@ add_executable(${PROJECT_NAME} source/main.cpp
   include/spaceship.h source/spaceship.cpp
   include/bullet.h source/bullet.cpp
   include/asteroid.h source/asteroid.cpp
+  include/player.h source/player.cpp
   include/world.h source/world.cpp
 )
 #set(raylib_VERBOSE 1)

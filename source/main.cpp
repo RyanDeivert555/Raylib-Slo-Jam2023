@@ -1,6 +1,6 @@
-#include "raylib.h"
 #include "../include/sprite.h"
 #include "../include/world.h"
+#include "raylib.h"
 
 int main() {
 	SetTraceLogLevel(LOG_WARNING);
@@ -8,28 +8,9 @@ int main() {
 	SetTargetFPS(60);
 	Sprite::Init();
 
-	for (int i = 0; i < 5; i++) {
-		Spaceship& ship = World::SpawnSpaceship(Sprite::redShipId);
-		ship.Position.x += 100.0f * i;
-		ship.Position.y += 100.0f * i;
-	}
-
 	while (!WindowShouldClose()) {
-		for (auto& ship : World::spaceships) {
-			if (IsKeyDown(KEY_A)) {
-				ship.Rotation -= 150.0f * GetFrameTime();
-			}
-			if (IsKeyDown(KEY_D)) {
-				ship.Rotation += 150.0f * GetFrameTime();
-			}
-			if (IsKeyDown(KEY_W)) {
-				ship.Speed = 500.0f;
-			} else {
-				ship.Speed = 250.0f;
-			}
-			if (IsKeyDown(KEY_SPACE)) {
-				ship.Shoot();
-			}
+		if (IsKeyPressed(KEY_ENTER)) {
+			World::SpawnAsteroid(4, Sprite::asteroid1Id);
 		}
 		World::Update();
 		BeginDrawing();
