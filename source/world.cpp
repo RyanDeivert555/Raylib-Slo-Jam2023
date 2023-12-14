@@ -20,7 +20,7 @@ namespace World {
 		.offset = Vector2{windowWidth / 2.0f, windowHeight / 2.0f},
 		.target = player.Position,
 		.rotation = 0.0f,
-		.zoom = minZoom
+		.zoom = 1.0f
 	};
 
 	Spaceship& SpawnSpaceship(std::size_t textureId) {
@@ -74,14 +74,13 @@ namespace World {
 	}
 
 	void UpdateCamera() {
+		// TODO: fix magic numbers
 		Vector2 difference = Vector2Subtract(player.Position, camera.target);
 		float length = Vector2Length(difference);
 		if (length > 10.0f) {
 			float cameraSpeed = std::max(length * 2.0f, 30.0f);
 			camera.target = Vector2Add(camera.target, Vector2Scale(difference, cameraSpeed * GetFrameTime() / length));
 		}
-		// TODO: make dynamic camera
-		//camera.target = player.Position;
 		if (IsKeyDown(KEY_UP)) {
 			camera.zoom = Clamp(camera.zoom + cameraZoomFactor * GetFrameTime(), minZoom, maxZoom);
 		}
@@ -103,6 +102,7 @@ namespace World {
 		for (const T& e : entities) {
 			if (e.ShouldDraw) {
 				e.Draw();
+				// debug
 				DrawRectangleLinesEx(e.GetRect(), 1.0f, GREEN);
 			}
 		}
@@ -133,7 +133,9 @@ namespace World {
 					state = GameState::Paused;
 				}
 				if (IsKeyPressed(KEY_ENTER)) {
-					World::SpawnAsteroid(4, Sprite::asteroid1Id);
+					int randIndex = GetRandomValue(0, Sprite::asteroidTextures.size() - 1);
+					int randLevel = GetRandomValue(1, Asteroid::MaxLevel);
+					World::SpawnAsteroid(randLevel, Sprite::asteroidTextures[randIndex]);
 				}
 				break;
 			}
