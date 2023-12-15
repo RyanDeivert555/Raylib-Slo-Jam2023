@@ -6,6 +6,8 @@ int main() {
 	SetTraceLogLevel(LOG_WARNING);
 	InitWindow(windowWidth, windowHeight, "GameJam2023");
 	SetTargetFPS(60);
+	
+	World::Init();
 	Sprite::Init();
 
 	while (!WindowShouldClose()) {

@@ -1,6 +1,7 @@
 #include "../include/spaceship.h"
 #include "../include/sprite.h"
 #include "../include/world.h"
+#include "raylib.h"
 #include "raymath.h"
 // debug
 #include <iostream>
@@ -22,7 +23,7 @@ void Spaceship::TakeDamage(float damage) {
 void Spaceship::Shoot() {
 	if (CanShoot) {
 		Vector2 direction = Vector2Normalize(
-		Vector2{
+			Vector2{
 				cosf(Rotation * DEG2RAD), 
 				sinf(Rotation * DEG2RAD)
 			}
@@ -41,23 +42,25 @@ void Spaceship::Shoot() {
 }
 
 void Spaceship::Update() {
-	if (Rotation >= 360.0f) {
+	// keep rotation between -180 and 180
+	while (Rotation > 180.0f) {
 		Rotation -= 360.0f;
 	}
-	if (Rotation < 0.0f) {
+	while (Rotation < -180.0f) {
 		Rotation += 360.0f;
 	}
 
-	float cosAngle = cos(Rotation * DEG2RAD);
-	float sinAngle = sin(Rotation * DEG2RAD);
-
-	Direction.x = cosAngle;
-	Direction.y = sinAngle;
+	Direction = Vector2Normalize(
+		Vector2{
+			cos(Rotation * DEG2RAD),
+			sin(Rotation * DEG2RAD)
+		}
+	);
 
 	Position = Vector2Add(Position, Vector2Scale(Direction, Speed * GetFrameTime()));
 }
 
 void Spaceship::Draw() const {
-	// hack to make sure ship is the correct rotation
+	// accounts for rotation of sprite
 	Sprite::Draw(TextureId, Position, Scale, Rotation + 90.0f, Sprite::Center(TextureId, Scale));
 }

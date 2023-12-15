@@ -9,7 +9,7 @@
 
 namespace World {
 	GameState state = GameState::Logo;
-	std::vector<Spaceship> spaceships{};
+	std::vector<NpcShip> spaceships{};
 	std::vector<Bullet> bullets{};
 	std::vector<Asteroid> asteroids{};
 	Player player{Sprite::redShipId};
@@ -23,7 +23,14 @@ namespace World {
 		.zoom = 1.0f
 	};
 
-	Spaceship& SpawnSpaceship(std::size_t textureId) {
+	void Init() {
+		for (int i = 0; i < 1; i++) {
+			NpcShip& ship = SpawnSpaceship(Sprite::redShipId);
+			ship.Position.x += 100.0f + (i * 10.0f);
+		}
+	}
+
+	NpcShip& SpawnSpaceship(std::size_t textureId) {
 		spaceships.emplace_back(textureId);
 		return spaceships.back();
 	}

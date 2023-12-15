@@ -9,8 +9,12 @@ Player::Player(std::size_t id) : Spaceship(id) {
 }
 
 void Player::getInput() {
-    Rotation += IsKeyDown(KEY_D) * 150.0f * GetFrameTime();
-    Rotation -= IsKeyDown(KEY_A) * 150.0f * GetFrameTime();
+    if (IsKeyDown(KEY_D)) {
+        Rotation += RotationSpeed * GetFrameTime();
+    }
+    if (IsKeyDown(KEY_A)) {
+        Rotation -= RotationSpeed * GetFrameTime();
+    }
     if (IsKeyDown(KEY_W)) {
         Speed += Acceleration * GetFrameTime();
         Speed = Clamp(Speed, MinSpeed, MaxSpeed);
