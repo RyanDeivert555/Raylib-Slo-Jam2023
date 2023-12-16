@@ -1,8 +1,5 @@
 #include "../include/world.h"
 #include "../include/sprite.h"
-#include "raylib.h"
-#include "raymath.h"
-#include <vector>
 #include <type_traits>
 // debug
 #include <iostream>
@@ -27,6 +24,8 @@ namespace World {
 		for (int i = 0; i < 1; i++) {
 			NpcShip& ship = SpawnSpaceship(Sprite::redShipId);
 			ship.Position.x += 100.0f + (i * 10.0f);
+			// debug
+			ship.SetState(State::Passive);
 		}
 	}
 
