@@ -1,6 +1,4 @@
 #include "../include/player.h"
-#include "raylib.h"
-#include "raymath.h"
 // debug
 #include <iostream>
 

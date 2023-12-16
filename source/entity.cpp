@@ -1,6 +1,5 @@
 #include "../include/entity.h"
 #include "../include/sprite.h"
-#include "raylib.h"
 
 Rectangle Entity::GetRect() const {
 	Vector2 size = Sprite::Size(TextureId);

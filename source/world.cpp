@@ -73,7 +73,8 @@ namespace World {
 				if constexpr (std::is_same_v<T, Bullet>) {
 					entity.Alive = false;
 				}
-			} else {
+			}
+			else {
 				entity.ShouldDraw = true;
 			}
 		} 

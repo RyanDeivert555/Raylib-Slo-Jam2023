@@ -1,8 +1,6 @@
 #include "../include/spaceship.h"
 #include "../include/sprite.h"
 #include "../include/world.h"
-#include "raylib.h"
-#include "raymath.h"
 // debug
 #include <iostream>
 

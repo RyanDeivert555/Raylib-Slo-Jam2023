@@ -1,11 +1,8 @@
 #include "../include/asteroid.h"
 #include "../include/sprite.h"
 #include "../include/world.h"
-#include "raylib.h"
-#include "raymath.h"
 // debug
 #include <iostream>
-#include <cassert>
 
 // helpers
 static Vector2 GetRandomVector2(float xMin, float xMax, float yMin, float yMax) {

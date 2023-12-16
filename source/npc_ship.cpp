@@ -1,7 +1,5 @@
 #include "../include/npc_ship.h"
 #include "../include/world.h"
-#include "raylib.h"
-#include "raymath.h"
 // debug
 #include <iostream>
 
@@ -28,7 +26,7 @@ void NpcShip::avoidPlayer() {
 	const Player& player = World::player;
 	Vector2 positionDifference = Vector2Subtract(Position, player.Position);
 	float angle = std::atan2(positionDifference.y, positionDifference.x) * RAD2DEG;
-	// TODO: make 
+	// TODO: make rotation gradual
 	Rotation = angle;
 }
 
