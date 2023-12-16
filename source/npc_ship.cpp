@@ -12,7 +12,7 @@ NpcShip::NpcShip(std::size_t id) : Spaceship(id) {
 
 void NpcShip::passiveFlight() {
     _randomDirectionTimer -= GetFrameTime();
-    // within 10 degrees
+    // within 1 degrees
     if (Rotation - _targetRotation <= 1.0f) {
         // TODO: make it rotate shortest path
         Rotation += RotationSpeed * GetFrameTime();
