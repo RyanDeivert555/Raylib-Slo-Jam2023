@@ -56,7 +56,7 @@ namespace World {
 	}
 
 	template<class T>
-	void CullFromSceen(std::vector<T> &entities) {
+	void CullFromSceen(std::vector<T>& entities) {
 		for (T& entity : entities) {
 			Rectangle rect = entity.GetRect();
 
