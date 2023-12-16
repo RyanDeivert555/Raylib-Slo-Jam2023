@@ -21,7 +21,7 @@ void Spaceship::TakeDamage(float damage) {
 }
 
 void Spaceship::Shoot() {
-	if (CanShoot) {
+	if (_canShoot) {
 		Vector2 direction = Vector2Normalize(
 			Vector2{
 				cosf(Rotation * DEG2RAD), 
@@ -30,23 +30,23 @@ void Spaceship::Shoot() {
 		);
 		float speed = Speed * 5.0f;
 		World::SpawnBullet(Position, direction, speed, IsPlayer, Sprite::blueProjectileId);
-		CanShoot = false;
+		_canShoot = false;
 	}
 	else {
-		CurrentAttackCooldown -= GetFrameTime();
-		if (CurrentAttackCooldown <= 0.0f) {
-			CurrentAttackCooldown = AttackCooldown;
-			CanShoot = true;
+		_currentAttackCooldown -= GetFrameTime();
+		if (_currentAttackCooldown <= 0.0f) {
+			_currentAttackCooldown = _attackCooldown;
+			_canShoot = true;
 		}
 	}
 }
 
 void Spaceship::Update() {
 	// keep rotation between -180 and 180
-	while (Rotation > 180.0f) {
+	while (Rotation >= 180.0f) {
 		Rotation -= 360.0f;
 	}
-	while (Rotation < -180.0f) {
+	while (Rotation <= -180.0f) {
 		Rotation += 360.0f;
 	}
 
