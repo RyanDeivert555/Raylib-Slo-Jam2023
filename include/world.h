@@ -1,5 +1,4 @@
 #pragma once
-#include "raylib.h"
 #include "npc_ship.h"
 #include "bullet.h"
 #include "asteroid.h"

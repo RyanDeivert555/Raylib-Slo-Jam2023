@@ -27,6 +27,9 @@ namespace World {
 	const float shipTime = 5.0f;
 	float shipSpawnTimer = shipTime;
 
+	// player score and time limit
+	int score = 0;
+
 	void Init() {
 		// for (int i = 0; i < 1; i++) {
 		// 	NpcShip& ship = SpawnSpaceship(Sprite::redShipId);
@@ -76,6 +79,9 @@ namespace World {
 				if (bullet.Collide(asteroid)) {
 					bullet.Kill();
 					asteroid.Split();
+					if (bullet.FromPlayer) {
+						score++;
+					}
 				}
 			}
 		}
@@ -183,6 +189,18 @@ namespace World {
 		}
 	}
 
+	void DrawGame() {
+		Sprite::DrawBackground();
+		BeginMode2D(camera);
+		player.Draw();
+		DrawEntities(bullets);
+		DrawEntities(spaceships);
+		DrawEntities(asteroids);
+		EndMode2D();
+		DrawFPS(0, 0);
+		DrawText(TextFormat("Score: %d", score), 0, 20, 20, BLUE);
+	}
+
 	void Draw() {
 		switch (state) {
 			case GameState::Logo:
@@ -193,24 +211,12 @@ namespace World {
 
 			case GameState::Gameplay:
 			{
-				Sprite::DrawBackground();
-				BeginMode2D(camera);
-				player.Draw();
-				DrawEntities(bullets);
-				DrawEntities(spaceships);
-				DrawEntities(asteroids);
-				EndMode2D();
+				DrawGame();
 				break;
 			}
 			case GameState::Paused:
 			{
-				Sprite::DrawBackground();
-				BeginMode2D(camera);
-				player.Draw();
-				DrawEntities(bullets);
-				DrawEntities(spaceships);
-				DrawEntities(asteroids);
-				EndMode2D();
+				DrawGame();
 				DrawText("Press P to Unpause", 100, 100, 100, RED);
 				break;
 			}

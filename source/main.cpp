@@ -15,7 +15,6 @@ int main() {
 		BeginDrawing();
 		ClearBackground(WHITE);
 		World::Draw();
-		DrawFPS(0, 0);
 		EndDrawing();
 	}
 	Sprite::UnloadTextures();
