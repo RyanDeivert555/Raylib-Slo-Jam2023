@@ -1,5 +1,6 @@
 #include "../include/world.h"
 #include "../include/sprite.h"
+#include "raylib.h"
 #include <type_traits>
 // debug
 #include <iostream>
@@ -9,7 +10,7 @@ namespace World {
 	std::vector<NpcShip> spaceships{};
 	std::vector<Bullet> bullets{};
 	std::vector<Asteroid> asteroids{};
-	Player player{Sprite::redShipId};
+	Player player{Sprite::redShip1Id};
 	const float cameraZoomFactor = 2.0f;
 	const float minZoom = 0.5f;
 	const float maxZoom = 1.0f;
@@ -20,13 +21,19 @@ namespace World {
 		.zoom = 1.0f
 	};
 
+	// TODO: better culling system for asteroids for performance
+	const float asteroidTime = 1.0f;
+	float asteroidSpawnTimer = asteroidTime;
+	const float shipTime = 2.0f;
+	float shipSpawnTimer = shipTime;
+
 	void Init() {
-		for (int i = 0; i < 1; i++) {
-			NpcShip& ship = SpawnSpaceship(Sprite::redShipId);
-			ship.Position.x += 100.0f + (i * 10.0f);
-			// debug
-			ship.SetState(State::Passive);
-		}
+		// for (int i = 0; i < 1; i++) {
+		// 	NpcShip& ship = SpawnSpaceship(Sprite::redShipId);
+		// 	ship.Position.x += 100.0f + (i * 10.0f);
+		// 	// debug
+		// 	ship.SetState(State::Passive);
+		// }
 	}
 
 	NpcShip& SpawnSpaceship(std::size_t textureId) {
@@ -39,9 +46,28 @@ namespace World {
 		return bullets.back();
 	}
 
-	Asteroid& SpawnAsteroid(int level, std::size_t textureId) {
+	Asteroid& SpawnAsteroid(int level) {
+		std::size_t textureId = Sprite::GetRandomTexture(Sprite::asteroidTextures);
 		asteroids.emplace_back(level, textureId);
 		return asteroids.back();
+	}
+
+	void DecrementAsteroidTimer() {
+		asteroidSpawnTimer -= GetFrameTime();
+		if (asteroidSpawnTimer <= 0.0f) {
+			SpawnAsteroid(Asteroid::GetRandomLevel());
+			asteroidSpawnTimer = asteroidTime;
+		}
+	}
+
+	void DecrementShipTimer() {
+		shipSpawnTimer -= GetFrameTime();
+		if (shipSpawnTimer < 0.0f) {
+			int randIndex = GetRandomValue(0, Sprite::shipTextures.size() - 1);
+			std::size_t randId = Sprite::shipTextures[randIndex];
+			SpawnSpaceship(randId);
+			shipSpawnTimer = shipTime;
+		}
 	}
 
 	void CollideBulletsAndAsteroids() {
@@ -124,9 +150,10 @@ namespace World {
 				}
 				break;
 			}
-
 			case GameState::Gameplay:
 			{
+				DecrementAsteroidTimer();
+				DecrementShipTimer();
 				player.Update();
 				UpdateCamera();
 				UpdateEntities(spaceships);
@@ -138,11 +165,6 @@ namespace World {
 				CullFromSceen(asteroids);
 				if (IsKeyPressed(KEY_P)) {
 					state = GameState::Paused;
-				}
-				if (IsKeyPressed(KEY_ENTER)) {
-					int randIndex = GetRandomValue(0, Sprite::asteroidTextures.size() - 1);
-					int randLevel = GetRandomValue(1, Asteroid::MaxLevel);
-					World::SpawnAsteroid(randLevel, Sprite::asteroidTextures[randIndex]);
 				}
 				break;
 			}
