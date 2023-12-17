@@ -24,7 +24,7 @@ namespace World {
 	// TODO: better culling system for asteroids for performance
 	const float asteroidTime = 1.0f;
 	float asteroidSpawnTimer = asteroidTime;
-	const float shipTime = 2.0f;
+	const float shipTime = 5.0f;
 	float shipSpawnTimer = shipTime;
 
 	void Init() {
@@ -193,6 +193,7 @@ namespace World {
 
 			case GameState::Gameplay:
 			{
+				Sprite::DrawBackground();
 				BeginMode2D(camera);
 				player.Draw();
 				DrawEntities(bullets);
@@ -203,6 +204,7 @@ namespace World {
 			}
 			case GameState::Paused:
 			{
+				Sprite::DrawBackground();
 				BeginMode2D(camera);
 				player.Draw();
 				DrawEntities(bullets);

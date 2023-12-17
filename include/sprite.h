@@ -29,6 +29,8 @@ namespace Sprite {
 	extern std::size_t asteroid2Id;
 	extern std::size_t asteroid3Id;
 	extern std::size_t asteroid4Id;
+	// scenery
+	extern std::size_t backgroundId;
 
 	std::size_t AddTexture(const char* filePath);
 	void Init();
@@ -37,5 +39,6 @@ namespace Sprite {
 	Vector2 Size(std::size_t id);
 	Vector2 Center(std::size_t id, Vector2 scale);
 	void Draw(std::size_t id, Vector2 position, Vector2 scale, float rotation, Vector2 origin);
+	void DrawBackground();
 	void UnloadTextures();
 }

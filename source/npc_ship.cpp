@@ -1,7 +1,6 @@
 #include "../include/npc_ship.h"
 #include "../include/world.h"
 #include "raylib.h"
-#include "raymath.h"
 // debug
 #include <iostream>
 
@@ -23,6 +22,7 @@ NpcShip::NpcShip(std::size_t id) : Spaceship(id) {
 	int randIndex = GetRandomValue(0, 3);
 	Position = PossibleSpawnPoints[randIndex];
 	Rotation = static_cast<float>(GetRandomValue(-180, 180));
+	Speed = static_cast<float>(GetRandomValue(150, 500));
 }
 
 void NpcShip::passiveFlight() {
@@ -34,7 +34,7 @@ void NpcShip::passiveFlight() {
 		Rotation += RotationSpeed * GetFrameTime();
 	}
 	if (_randomDirectionTimer <= 0.0f) {
-		_randomDirectionTimer = static_cast<float>(GetRandomValue(3, 6));
+		_randomDirectionTimer = static_cast<float>(GetRandomValue(5, 10));
 		_targetRotation = static_cast<float>(GetRandomValue(-150, 150));
 	}
 }

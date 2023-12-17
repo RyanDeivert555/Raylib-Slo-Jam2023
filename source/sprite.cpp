@@ -24,6 +24,7 @@ namespace Sprite {
 	std::size_t asteroid2Id{};
 	std::size_t asteroid3Id{};
 	std::size_t asteroid4Id{};
+	std::size_t backgroundId{};
 
 	std::size_t AddTexture(const char *fileName) {
 		Texture2D texture = LoadTexture(fileName);
@@ -69,6 +70,8 @@ namespace Sprite {
 		asteroidTextures.push_back(asteroid2Id);
 		asteroidTextures.push_back(asteroid3Id);
 		asteroidTextures.push_back(asteroid4Id);
+		// scenery
+		backgroundId = AddTexture("../assets/background.png");
 	}
 
 	std::size_t GetRandomTexture(const std::vector<size_t>& ids) {
@@ -95,6 +98,10 @@ namespace Sprite {
 		center = Vector2Multiply(center, scale);
 
 		return center;
+	}
+
+	void DrawBackground() {
+		Draw(backgroundId, Vector2Zero(), Vector2{10.0f, 10.0f}, 0.0f, Vector2Zero());
 	}
 
 	void Draw(std::size_t id, Vector2 position, Vector2 scale, float rotation, Vector2 origin) {
