@@ -7,5 +7,5 @@ public:
 
     Bullet(Vector2 position, Vector2 direction, float speed, bool fromPlayer, std::size_t id);
     void Update() override;
-	void Draw() const override;
+    void Draw() const override;
 };

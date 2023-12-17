@@ -5,45 +5,45 @@
 #include <iostream>
 
 Asteroid::Asteroid(int level, std::size_t id) {
-	Vector2 screenOrigin = GetScreenToWorld2D(Vector2Zero(), World::camera);
-	Vector2 screenBounds = GetScreenToWorld2D(Vector2{windowWidth, windowHeight}, World::camera);
-	
-	const Vector2 PossibleSpawnPoints[] = {
-		// top
-		GetRandomVector2(-SpawnOffset + screenOrigin.x, screenBounds.x + SpawnOffset, -SpawnOffset + screenOrigin.y, screenOrigin.y),
-		// bottom
-		GetRandomVector2(-SpawnOffset + screenOrigin.x, screenBounds.x + SpawnOffset, screenBounds.y, screenBounds.y + SpawnOffset),
-		// left
-		GetRandomVector2(-SpawnOffset + screenOrigin.x, screenOrigin.x, -SpawnOffset + screenBounds.y, screenBounds.y + SpawnOffset),
-		// right
-		GetRandomVector2(screenBounds.x, screenBounds.x + SpawnOffset, -SpawnOffset + screenOrigin.y, screenBounds.y),
-	};
+    Vector2 screenOrigin = GetScreenToWorld2D(Vector2Zero(), World::camera);
+    Vector2 screenBounds = GetScreenToWorld2D(Vector2{windowWidth, windowHeight}, World::camera);
+    
+    const Vector2 PossibleSpawnPoints[] = {
+        // top
+        GetRandomVector2(-SpawnOffset + screenOrigin.x, screenBounds.x + SpawnOffset, -SpawnOffset + screenOrigin.y, screenOrigin.y),
+        // bottom
+        GetRandomVector2(-SpawnOffset + screenOrigin.x, screenBounds.x + SpawnOffset, screenBounds.y, screenBounds.y + SpawnOffset),
+        // left
+        GetRandomVector2(-SpawnOffset + screenOrigin.x, screenOrigin.x, -SpawnOffset + screenBounds.y, screenBounds.y + SpawnOffset),
+        // right
+        GetRandomVector2(screenBounds.x, screenBounds.x + SpawnOffset, -SpawnOffset + screenOrigin.y, screenBounds.y),
+    };
 
-	TextureId = id;
-	int randIndex = GetRandomValue(0, 3);
-	Position = PossibleSpawnPoints[randIndex];
-	Vector2 centerScreen = Vector2Scale(screenBounds, 0.5f);
-	Direction = Vector2Normalize(Vector2Subtract(centerScreen, Position));
-	Speed = static_cast<float>(GetRandomValue(100, 100 * level));
-	_level = level;
-	Scale = Vector2Scale(Scale, _level / (MaxLevel * 2.0f));
+    TextureId = id;
+    int randIndex = GetRandomValue(0, 3);
+    Position = PossibleSpawnPoints[randIndex];
+    Vector2 centerScreen = Vector2Scale(screenBounds, 0.5f);
+    Direction = Vector2Normalize(Vector2Subtract(centerScreen, Position));
+    Speed = static_cast<float>(GetRandomValue(100, 100 * level));
+    _level = level;
+    Scale = Vector2Scale(Scale, _level / (MaxLevel * 2.0f));
 }
 
 void Asteroid::Split() {
-	Kill();
-	_level--;
-	if (_level <= 0) return;
-	for (int i = 0; i < 2; i++) {
-		Asteroid& asteroid = World::SpawnAsteroid(_level);
-		asteroid.Position = Position;
-	}
+    Kill();
+    _level--;
+    if (_level <= 0) return;
+    for (int i = 0; i < 2; i++) {
+        Asteroid& asteroid = World::SpawnAsteroid(_level);
+        asteroid.Position = Position;
+    }
 }
 
 void Asteroid::Update() {
-	Rotation += RotationSpeed * GetFrameTime();
-	Position = Vector2Add(Position, Vector2Scale(Direction, Speed * GetFrameTime()));
+    Rotation += RotationSpeed * GetFrameTime();
+    Position = Vector2Add(Position, Vector2Scale(Direction, Speed * GetFrameTime()));
 }
 
 void Asteroid::Draw() const {
-	Sprite::Draw(TextureId, Position, Scale, Rotation, Sprite::Center(TextureId, Scale));
+    Sprite::Draw(TextureId, Position, Scale, Rotation, Sprite::Center(TextureId, Scale));
 }
