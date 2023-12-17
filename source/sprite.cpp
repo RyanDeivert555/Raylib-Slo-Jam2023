@@ -101,7 +101,14 @@ namespace Sprite {
 	}
 
 	void DrawBackground() {
-		Draw(backgroundId, Vector2Zero(), Vector2{10.0f, 10.0f}, 0.0f, Vector2Zero());
+		static const Vector2 windowScale{
+			static_cast<float>(GetScreenWidth()),
+			static_cast<float>(GetScreenHeight())
+		};
+		static const Vector2 backgroundScale = Size(backgroundId);
+		static const Vector2 scale = Vector2Divide(windowScale, backgroundScale);
+
+		Draw(backgroundId, Vector2Zero(), scale, 0.0f, Vector2Zero());
 	}
 
 	void Draw(std::size_t id, Vector2 position, Vector2 scale, float rotation, Vector2 origin) {
