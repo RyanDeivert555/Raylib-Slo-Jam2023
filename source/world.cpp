@@ -1,6 +1,7 @@
 #include "../include/world.h"
 #include "../include/sprite.h"
 #include "raylib.h"
+#include "raymath.h"
 #include <type_traits>
 // debug
 #include <iostream>
@@ -16,7 +17,7 @@ namespace World {
     const float maxZoom = 1.0f;
     Camera2D camera{
         .offset = Vector2{windowWidth / 2.0f, windowHeight / 2.0f},
-        .target = player.Position,
+        .target = Vector2{1000.0f, 1000.0f}, // create "zoom to" effect for player
         .rotation = 0.0f,
         .zoom = 1.0f
     };
@@ -29,14 +30,16 @@ namespace World {
 
     // player score and time limit
     int score = 0;
+    const float maxTimeLimit = 120.0f;
+    float playerTimeLimit = maxTimeLimit;
 
-    void Init() {
-        // for (int i = 0; i < 1; i++) {
-        // 	NpcShip& ship = SpawnSpaceship(Sprite::redShipId);
-        // 	ship.Position.x += 100.0f + (i * 10.0f);
-        // 	// debug
-        // 	ship.SetState(State::Passive);
-        // }
+    void Reset() {
+        spaceships.clear();
+        bullets.clear();
+        asteroids.clear();
+        score = 0;
+        playerTimeLimit = maxTimeLimit;
+        player.Position = Vector2Zero();
     }
 
     NpcShip& SpawnSpaceship(std::size_t textureId) {
@@ -70,6 +73,11 @@ namespace World {
             SpawnSpaceship(randId);
             shipSpawnTimer = shipTime;
         }
+    }
+
+    bool DecrementPlayerTimer() {
+        playerTimeLimit -= GetFrameTime();
+        return playerTimeLimit <= 0.0f;
     }
 
     void CollideBulletsAndAsteroids() {
@@ -171,6 +179,10 @@ namespace World {
                 if (IsKeyPressed(KEY_P)) {
                     state = GameState::Paused;
                 }
+                bool gameOver = DecrementPlayerTimer();
+                if (gameOver) {
+                    state = GameState::GameOver;
+                }
                 break;
             }
             case GameState::Paused:
@@ -183,6 +195,10 @@ namespace World {
 
             case GameState::GameOver:
             {
+                if (IsKeyPressed(KEY_ENTER)) {
+                    state = GameState::Gameplay;
+                    Reset();
+                }
                 break;
             }
         }
@@ -197,7 +213,8 @@ namespace World {
         DrawEntities(asteroids);
         EndMode2D();
         //DrawFPS(0, 0);
-        Sprite::DrawText(TextFormat("Score %d", score), Vector2One(), 50.0f, 10.0f, MAROON);
+        Sprite::DrawText(TextFormat("Score [%d]", score), Vector2Zero(), 50.0f, 10.0f, MAROON);
+        Sprite::DrawText(TextFormat("Time Limit [%.0f]", playerTimeLimit), Vector2{0.0f, 50.0f}, 25.0f, 10.0f, MAROON);
     }
 
     void Draw() {
@@ -205,7 +222,7 @@ namespace World {
             case GameState::Logo:
             {
                 Sprite::DrawBackground();
-                Sprite::DrawTextCenter("Press \"Enter\" to Start", 75.0f, 10.0f, MAROON);
+                Sprite::DrawTextCenter("Press [Enter] to Start", 75.0f, 10.0f, MAROON);
                 break;
             }
 
@@ -217,12 +234,14 @@ namespace World {
             case GameState::Paused:
             {
                 DrawGame();
-                Sprite::DrawTextCenter("Press \"P\" to Unpause", 50.0f, 10.0f, MAROON);
+                Sprite::DrawTextCenter("Press [P] to Unpause", 50.0f, 10.0f, MAROON);
                 break;
             }
 
             case GameState::GameOver:
             {
+                Sprite::DrawBackground();
+                Sprite::DrawTextCenter(TextFormat("Score %d\n\n\n\nPress [Enter] to Play Again", score), 50.0f, 10.0f, MAROON);
                 break;
             }
         }

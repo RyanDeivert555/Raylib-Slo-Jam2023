@@ -28,7 +28,7 @@ NpcShip::NpcShip(std::size_t id) : Spaceship(id) {
 void NpcShip::passiveFlight() {
     _randomDirectionTimer -= GetFrameTime();
     // within 1 degrees
-    // FIXME: better checks for when to rotate
+    // FIXME: better checks for when to rotate, sometimes ship stuck in spin
     if (std::abs(Rotation - _targetRotation) > 1.0f) {
         // TODO: make it rotate shortest path
         Rotation += RotationSpeed * GetFrameTime();

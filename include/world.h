@@ -34,8 +34,6 @@ namespace World {
     extern Player player;
     extern Camera2D camera;
 
-    // TODO: purpose of Init?
-    void Init();
     NpcShip& SpawnSpaceship(std::size_t textureId);
     Bullet& SpawnBullet(Vector2 position, Vector2 velocity, float speed, bool fromPlayer, std::size_t textureId);
     Asteroid& SpawnAsteroid(int level);
