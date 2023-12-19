@@ -66,8 +66,7 @@ namespace World {
     void DecrementShipTimer() {
         shipSpawnTimer -= GetFrameTime();
         if (shipSpawnTimer < 0.0f) {
-            int randIndex = GetRandomValue(0, Sprite::shipTextures.size() - 1);
-            std::size_t randId = Sprite::shipTextures[randIndex];
+            std::size_t randId = Sprite::GetRandomTexture(Sprite::shipTextures);
             SpawnSpaceship(randId);
             shipSpawnTimer = shipTime;
         }
@@ -197,15 +196,16 @@ namespace World {
         DrawEntities(spaceships);
         DrawEntities(asteroids);
         EndMode2D();
-        DrawFPS(0, 0);
-        DrawText(TextFormat("Score: %d", score), 0, 20, 20, BLUE);
+        //DrawFPS(0, 0);
+        Sprite::DrawText(TextFormat("Score %d", score), Vector2One(), 50.0f, 10.0f, MAROON);
     }
 
     void Draw() {
         switch (state) {
             case GameState::Logo:
             {
-                DrawText("Press Enter to Start", 100, 100, 100, RED);
+                Sprite::DrawBackground();
+                Sprite::DrawTextCenter("Press \"Enter\" to Start", 75.0f, 10.0f, MAROON);
                 break;
             }
 
@@ -217,7 +217,7 @@ namespace World {
             case GameState::Paused:
             {
                 DrawGame();
-                DrawText("Press P to Unpause", 100, 100, 100, RED);
+                Sprite::DrawTextCenter("Press \"P\" to Unpause", 50.0f, 10.0f, MAROON);
                 break;
             }
 

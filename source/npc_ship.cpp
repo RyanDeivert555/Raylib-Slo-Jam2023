@@ -22,7 +22,7 @@ NpcShip::NpcShip(std::size_t id) : Spaceship(id) {
     int randIndex = GetRandomValue(0, 3);
     Position = PossibleSpawnPoints[randIndex];
     Rotation = static_cast<float>(GetRandomValue(-180, 180));
-    Speed = static_cast<float>(GetRandomValue(150, 500));
+    Speed = static_cast<float>(GetRandomValue(150, 700));
 }
 
 void NpcShip::passiveFlight() {

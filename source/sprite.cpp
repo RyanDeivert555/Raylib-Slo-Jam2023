@@ -25,6 +25,7 @@ namespace Sprite {
     std::size_t asteroid3Id{};
     std::size_t asteroid4Id{};
     std::size_t backgroundId{};
+    Font font{};
 
     std::size_t AddTexture(const char *fileName) {
         Texture2D texture = LoadTexture(fileName);
@@ -72,6 +73,8 @@ namespace Sprite {
         asteroidTextures.push_back(asteroid4Id);
         // scenery
         backgroundId = AddTexture("../assets/background.png");
+        // todo: properly load font
+        font = LoadFontEx("../assets/font.ttf", 32, nullptr, 250);
     }
 
     std::size_t GetRandomTexture(const std::vector<size_t>& ids) {
@@ -111,6 +114,21 @@ namespace Sprite {
         Draw(backgroundId, Vector2Zero(), scale, 0.0f, Vector2Zero());
     }
 
+    void DrawText(const char* text, Vector2 position, float fontSize, float fontSpacing, Color tint) {
+        DrawTextEx(font, text, position, fontSize, fontSpacing, tint);
+    }
+
+    void DrawTextCenter(const char* text, float fontSize, float fontSpacing, Color tint) {
+        float screenWidth = static_cast<float>(GetScreenWidth());
+        float screenHeight = static_cast<float>(GetScreenHeight());
+        Vector2 screenSize{screenWidth, screenHeight};
+        Vector2 centerScreen = Vector2Scale(screenSize, 0.5f);
+        Vector2 size = MeasureTextEx(font, text, fontSize, fontSpacing);
+        Vector2 centerSize = Vector2Scale(size, 0.5f);
+        Vector2 centerPosition = Vector2Subtract(centerScreen, centerSize);
+        Sprite::DrawText(text, centerPosition, fontSize, fontSpacing, tint);
+    }
+
     void Draw(std::size_t id, Vector2 position, Vector2 scale, float rotation, Vector2 origin) {
         Texture2D texture = GetTexture(id);
         float width = static_cast<float>(texture.width);
@@ -137,5 +155,6 @@ namespace Sprite {
         for (const auto& texture : textures) {
             UnloadTexture(texture);
         }
+        UnloadFont(font);
     }
 }

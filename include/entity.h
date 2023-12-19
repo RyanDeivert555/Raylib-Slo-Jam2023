@@ -5,7 +5,7 @@
 
 class Entity {
 public:
-    static constexpr float DefaultSpeed = 150.0f;
+    static constexpr float DefaultSpeed = 250.0f;
     Vector2 Position = Vector2Zero();
     Vector2 Direction = Vector2Zero();
     float Speed = DefaultSpeed;
