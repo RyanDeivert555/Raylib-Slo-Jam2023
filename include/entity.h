@@ -6,9 +6,11 @@
 class Entity {
 public:
     static constexpr float DefaultSpeed = 250.0f;
+    static constexpr float DefaultRotationSpeed = 150.0f;
     Vector2 Position = Vector2Zero();
     Vector2 Direction = Vector2Zero();
     float Speed = DefaultSpeed;
+    float RotationSpeed = DefaultRotationSpeed;
     float Rotation = 0.0f;
     Vector2 Scale = Vector2One();
     bool Alive = true;

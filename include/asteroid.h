@@ -7,7 +7,6 @@ private:
 
 public:
     static constexpr int MaxLevel = 3;
-    float RotationSpeed = static_cast<float>(GetRandomValue(-100, 100));
     
     Asteroid(int level, std::size_t id);
     static int GetRandomLevel() {

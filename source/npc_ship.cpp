@@ -1,5 +1,6 @@
 #include "../include/npc_ship.h"
 #include "../include/world.h"
+#include "raylib.h"
 // debug
 #include <iostream>
 
@@ -22,6 +23,7 @@ NpcShip::NpcShip(std::size_t id) : Spaceship(id) {
     Position = PossibleSpawnPoints[randIndex];
     Rotation = static_cast<float>(GetRandomValue(-180, 180));
     Speed = static_cast<float>(GetRandomValue(150, 400));
+    RotationSpeed = static_cast<float>(GetRandomValue(50, 200));
 }
 
 void NpcShip::rotateToTarget() {
@@ -29,6 +31,7 @@ void NpcShip::rotateToTarget() {
     if (std::abs(Rotation - _targetRotation) > 1.0f) {
         float rotationDelta = _targetRotation - Rotation;
         rotationDelta = fmod(rotationDelta + 180.0f, 360.0f) - 180.0f;
+        // ensure rotationDir is within -180 and 180 degrees
         float rotationDir = (rotationDelta > 0.0f) ? 1.0f : -1.0f;
         Rotation += RotationSpeed * rotationDir * GetFrameTime();
     }
@@ -39,24 +42,24 @@ void NpcShip::passiveFlight() {
     rotateToTarget();
     if (_randomDirectionTimer <= 0.0f) {
         _randomDirectionTimer = static_cast<float>(GetRandomValue(5, 10));
-        _targetRotation = static_cast<float>(GetRandomValue(-150, 150));
+        _targetRotation = static_cast<float>(GetRandomValue(-180, 180));
     }
 }
 
 void NpcShip::avoidPlayer() {
-    Speed = DefaultSpeed * 3.0f;
     const Player& player = World::player;
     Vector2 positionDifference = Vector2Subtract(Position, player.Position);
     float angle = std::atan2(positionDifference.y, positionDifference.x) * RAD2DEG;
-    // TODO: make rotation gradual
-    Rotation = angle;
+    _targetRotation = angle;
+    rotateToTarget();
 }
 
 void NpcShip::findPlayer() {
     const Player& player = World::player;
     Vector2 positionDifference = Vector2Subtract(player.Position, Position);
     float angle = std::atan2(positionDifference.y, positionDifference.x) * RAD2DEG;
-    Rotation = angle;
+    _targetRotation = angle;
+    rotateToTarget();
 }
 
 void NpcShip::updateState() {
