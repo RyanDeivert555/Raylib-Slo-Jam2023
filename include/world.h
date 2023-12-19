@@ -10,13 +10,8 @@ constexpr int windowHeight = 900;
 
 static constexpr float SpawnOffset = 500.0f;
 
-inline Vector2 GetRandomVector2(float xMin, float xMax, float yMin, float yMax) {
-    float x = static_cast<float>(GetRandomValue(xMin, xMax));
-    float y = static_cast<float>(GetRandomValue(yMin, yMax));
-    Vector2 result = Vector2{x, y};
-
-    return result;
-}
+Vector2 GetRandomVector2(float xMin, float xMax, float yMin, float yMax);
+Vector2 GetSpawnPoint();
 
 enum class GameState {
     Logo,

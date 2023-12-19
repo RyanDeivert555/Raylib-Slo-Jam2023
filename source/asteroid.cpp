@@ -5,23 +5,9 @@
 #include <iostream>
 
 Asteroid::Asteroid(int level, std::size_t id) {
-    Vector2 screenOrigin = GetScreenToWorld2D(Vector2Zero(), World::camera);
-    Vector2 screenBounds = GetScreenToWorld2D(Vector2{windowWidth, windowHeight}, World::camera);
-    
-    const Vector2 PossibleSpawnPoints[] = {
-        // top
-        GetRandomVector2(-SpawnOffset + screenOrigin.x, screenBounds.x + SpawnOffset, -SpawnOffset + screenOrigin.y, screenOrigin.y),
-        // bottom
-        GetRandomVector2(-SpawnOffset + screenOrigin.x, screenBounds.x + SpawnOffset, screenBounds.y, screenBounds.y + SpawnOffset),
-        // left
-        GetRandomVector2(-SpawnOffset + screenOrigin.x, screenOrigin.x, -SpawnOffset + screenBounds.y, screenBounds.y + SpawnOffset),
-        // right
-        GetRandomVector2(screenBounds.x, screenBounds.x + SpawnOffset, -SpawnOffset + screenOrigin.y, screenBounds.y),
-    };
-
     TextureId = id;
-    int randIndex = GetRandomValue(0, 3);
-    Position = PossibleSpawnPoints[randIndex];
+    Position = GetSpawnPoint();
+    Vector2 screenBounds = GetScreenToWorld2D(Vector2{windowWidth, windowHeight}, World::camera);
     Vector2 centerScreen = Vector2Scale(screenBounds, 0.5f);
     Direction = Vector2Normalize(Vector2Subtract(centerScreen, Position));
     Speed = static_cast<float>(GetRandomValue(100, 100 * level));

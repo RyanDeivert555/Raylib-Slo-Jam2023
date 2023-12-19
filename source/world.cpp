@@ -6,6 +6,33 @@
 // debug
 #include <iostream>
 
+Vector2 GetRandomVector2(float xMin, float xMax, float yMin, float yMax) {
+    float x = static_cast<float>(GetRandomValue(xMin, xMax));
+    float y = static_cast<float>(GetRandomValue(yMin, yMax));
+    Vector2 result = Vector2{x, y};
+
+    return result;
+}
+
+Vector2 GetSpawnPoint() {
+    Vector2 screenOrigin = GetScreenToWorld2D(Vector2Zero(), World::camera);
+    Vector2 screenBounds = GetScreenToWorld2D(Vector2{windowWidth, windowHeight}, World::camera);
+    
+    const Vector2 PossibleSpawnPoints[] = {
+        // top
+        GetRandomVector2(-SpawnOffset + screenOrigin.x, screenBounds.x + SpawnOffset, -SpawnOffset + screenOrigin.y, screenOrigin.y),
+        // bottom
+        GetRandomVector2(-SpawnOffset + screenOrigin.x, screenBounds.x + SpawnOffset, screenBounds.y, screenBounds.y + SpawnOffset),
+        // left
+        GetRandomVector2(-SpawnOffset + screenOrigin.x, screenOrigin.x, -SpawnOffset + screenBounds.y, screenBounds.y + SpawnOffset),
+        // right
+        GetRandomVector2(screenBounds.x, screenBounds.x + SpawnOffset, -SpawnOffset + screenOrigin.y, screenBounds.y),
+    };
+
+    int randIndex = GetRandomValue(0, 3);
+    return PossibleSpawnPoints[randIndex];
+}
+
 namespace World {
     GameState state = GameState::Logo;
     std::vector<NpcShip> spaceships{};
