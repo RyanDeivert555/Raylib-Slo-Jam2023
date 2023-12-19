@@ -24,8 +24,7 @@ NpcShip::NpcShip(std::size_t id) : Spaceship(id) {
     Speed = static_cast<float>(GetRandomValue(150, 400));
 }
 
-void NpcShip::passiveFlight() {
-    _randomDirectionTimer -= GetFrameTime();
+void NpcShip::rotateToTarget() {
     // within 1 degrees
     if (std::abs(Rotation - _targetRotation) > 1.0f) {
         float rotationDelta = _targetRotation - Rotation;
@@ -33,6 +32,11 @@ void NpcShip::passiveFlight() {
         float rotationDir = (rotationDelta > 0.0f) ? 1.0f : -1.0f;
         Rotation += RotationSpeed * rotationDir * GetFrameTime();
     }
+}
+
+void NpcShip::passiveFlight() {
+    _randomDirectionTimer -= GetFrameTime();
+    rotateToTarget();
     if (_randomDirectionTimer <= 0.0f) {
         _randomDirectionTimer = static_cast<float>(GetRandomValue(5, 10));
         _targetRotation = static_cast<float>(GetRandomValue(-150, 150));

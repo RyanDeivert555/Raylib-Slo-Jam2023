@@ -14,6 +14,8 @@ private:
     float _targetRotation = 0.0f;
     State _state = State::Passive;
 
+
+    void rotateToTarget();
     void passiveFlight();
     void avoidPlayer();
     void findPlayer();
