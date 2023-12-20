@@ -6,6 +6,7 @@
 
 Spaceship::Spaceship(std::size_t id) {
     TextureId = id;
+    Scale = Vector2{1.5f, 1.5f};
 }
 
 void Spaceship::TakeDamage(float damage) {
