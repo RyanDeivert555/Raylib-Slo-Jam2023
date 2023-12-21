@@ -20,14 +20,14 @@ int main() {
     
     Sprite::Init();
 
-    #ifdef __EMSCRIPTEN__
-        emscripten_set_main_loop(MainLoop, 60, 1);
-    #else
-        SetTargetFPS(60);
-        while (!WindowShouldClose()) {
-            MainLoop();
-        }
-    #endif
+#ifdef __EMSCRIPTEN__
+    emscripten_set_main_loop(MainLoop, 60, 1);
+#else
+    SetTargetFPS(60);
+    while (!WindowShouldClose()) {
+        MainLoop();
+    }
+#endif
 
     Sprite::UnloadTextures();
     CloseWindow();

@@ -4,6 +4,8 @@
 class Player : public Spaceship {
 private:
     void getInput();
+    void warnNoShields() const;
+    
 public:
     static constexpr float Acceleration = 200.0f;
     static constexpr float MaxSpeed = 700.0f;

@@ -1,6 +1,8 @@
 #include "../include/spaceship.h"
 #include "../include/sprite.h"
 #include "../include/world.h"
+#include "raylib.h"
+#include "raymath.h"
 // debug
 #include <iostream>
 
@@ -10,23 +12,24 @@ Spaceship::Spaceship(std::size_t id) {
 }
 
 void Spaceship::TakeDamage(float damage) {
-    Shield -= damage;
-    if (Shield <= 0) {
-        Health -= damage;
+    if (!_vulnerable) {
+        return;
     }
-    if (Health <= 0) {
+    if (Shield >= 0.0f) {
+        Shield -= damage;
+    }
+    else {
         Kill();
     }
+    _vulnerable = false;
 }
 
 void Spaceship::Shoot() {
     if (_canShoot) {
-        Vector2 direction = Vector2Normalize(
-            Vector2{
-                cosf(Rotation * DEG2RAD), 
-                sinf(Rotation * DEG2RAD)
-            }
-        );
+        Vector2 direction = Vector2{
+            cosf(Rotation * DEG2RAD), 
+            sinf(Rotation * DEG2RAD)
+        };
         float speed = Speed * 5.0f;
         World::SpawnBullet(Position, direction, speed, IsPlayer, Sprite::blueProjectileId);
         _canShoot = false;
@@ -41,6 +44,14 @@ void Spaceship::Shoot() {
 }
 
 void Spaceship::Update() {
+    // vulnerability countdown
+    if (!_vulnerable) {
+        _currentInvulerabilityCooldown -= GetFrameTime();
+        if (_currentInvulerabilityCooldown <= 0.0f) {
+            _currentInvulerabilityCooldown = _invulerabilityCooldown;
+            _vulnerable = true;
+        }
+    }
     // keep rotation between -180 and 180
     while (Rotation >= 180.0f) {
         Rotation -= 360.0f;
@@ -49,17 +60,21 @@ void Spaceship::Update() {
         Rotation += 360.0f;
     }
 
-    Direction = Vector2Normalize(
-        Vector2{
-            cos(Rotation * DEG2RAD),
-            sin(Rotation * DEG2RAD)
-        }
-    );
+    Direction = Vector2{
+        cos(Rotation * DEG2RAD),
+        sin(Rotation * DEG2RAD)
+    };
 
     Position = Vector2Add(Position, Vector2Scale(Direction, Speed * GetFrameTime()));
 }
 
 void Spaceship::Draw() const {
+    Vector2 center = Sprite::Center(TextureId, Scale);
     // accounts for rotation of sprite
-    Sprite::Draw(TextureId, Position, Scale, Rotation + 90.0f, Sprite::Center(TextureId, Scale));
+    Sprite::Draw(TextureId, Position, Scale, Rotation + 90.0f, center);
+    // draw shield
+    static const Vector2 shieldScale{2.0f, 2.0f};
+    float shieldRange = Normalize(Shield / MaxShield, 0.0f, 1.0f);
+    Vector2 shieldCenter = Sprite::Center(Sprite::shieldId, shieldScale);
+    Sprite::Draw(Sprite::shieldId, Position, shieldScale, Rotation + 90.0f, shieldCenter, ColorAlpha(SKYBLUE, shieldRange)); 
 }

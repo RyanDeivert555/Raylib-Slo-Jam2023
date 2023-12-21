@@ -31,6 +31,8 @@ namespace Sprite {
     extern std::size_t asteroid4Id;
     // scenery
     extern std::size_t backgroundId;
+    // shields
+    extern std::size_t shieldId;
     // font
     extern Font font;
 
@@ -40,9 +42,9 @@ namespace Sprite {
     const Texture2D& GetTexture(std::size_t id);
     Vector2 Size(std::size_t id);
     Vector2 Center(std::size_t id, Vector2 scale);
-    void DrawText(const char* text, Vector2 position, float fontSize, float fontSpacing, Color tint);
-    void DrawTextCenter(const char* text, Vector2 offset, float fontSize, float fontSpacing, Color tint);
-    void Draw(std::size_t id, Vector2 position, Vector2 scale, float rotation, Vector2 origin);
+    void DrawText(const char* text, Vector2 position, float fontSize, float fontSpacing, Color tint=WHITE);
+    void DrawTextCenter(const char* text, Vector2 offset, float fontSize, float fontSpacing, Color tint=WHITE);
+    void Draw(std::size_t id, Vector2 position, Vector2 scale, float rotation, Vector2 origin, Color tint=WHITE);
     void DrawBackground();
     void UnloadTextures();
 }

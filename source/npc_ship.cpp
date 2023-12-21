@@ -1,5 +1,6 @@
 #include "../include/npc_ship.h"
 #include "../include/world.h"
+#include "raylib.h"
 // debug
 #include <iostream>
 
@@ -8,6 +9,8 @@ NpcShip::NpcShip(std::size_t id) : Spaceship(id) {
     Rotation = static_cast<float>(GetRandomValue(-180, 180));
     Speed = static_cast<float>(GetRandomValue(150, 400));
     RotationSpeed = static_cast<float>(GetRandomValue(50, 200));
+    MaxShield = static_cast<float>(GetRandomValue(50, 150));
+    Shield = MaxShield;
 }
 
 void NpcShip::rotateToTarget() {

@@ -25,6 +25,7 @@ namespace Sprite {
     std::size_t asteroid3Id{};
     std::size_t asteroid4Id{};
     std::size_t backgroundId{};
+    std::size_t shieldId{};
     Font font{};
 
     std::size_t AddTexture(const char *fileName) {
@@ -73,7 +74,7 @@ namespace Sprite {
         asteroidTextures.push_back(asteroid4Id);
         // scenery
         backgroundId = AddTexture("../assets/background.png");
-        // todo: properly load font
+        shieldId = AddTexture("../assets/shield.png");
         font = LoadFontEx("../assets/font.ttf", 32, nullptr, 250);
     }
 
@@ -130,7 +131,7 @@ namespace Sprite {
         Sprite::DrawText(text, centerPosition, fontSize, fontSpacing, tint);
     }
 
-    void Draw(std::size_t id, Vector2 position, Vector2 scale, float rotation, Vector2 origin) {
+    void Draw(std::size_t id, Vector2 position, Vector2 scale, float rotation, Vector2 origin, Color tint) {
         Texture2D texture = GetTexture(id);
         float width = static_cast<float>(texture.width);
         float height = static_cast<float>(texture.height);
@@ -148,8 +149,7 @@ namespace Sprite {
             width * scale.x,
             height * scale.y
         };
-
-        DrawTexturePro(texture, sourceRect, destRect, origin, rotation, WHITE);
+        DrawTexturePro(texture, sourceRect, destRect, origin, rotation, tint);
     }
 
     void UnloadTextures() {

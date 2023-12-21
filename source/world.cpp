@@ -9,7 +9,7 @@
 Vector2 GetRandomVector2(float xMin, float xMax, float yMin, float yMax) {
     float x = static_cast<float>(GetRandomValue(xMin, xMax));
     float y = static_cast<float>(GetRandomValue(yMin, yMax));
-    Vector2 result = Vector2{x, y};
+    Vector2 result{x, y};
 
     return result;
 }
@@ -56,7 +56,7 @@ namespace World {
     float shipSpawnTimer = shipTime;
 
     // player score and time limit
-    int score = 0;
+    std::size_t score = 0;
     const float maxTimeLimit = 120.0f;
     float playerTimeLimit = maxTimeLimit;
 
@@ -117,6 +117,15 @@ namespace World {
                         score++;
                     }
                 }
+            }
+        }
+    }
+
+    void CollideAsteroidsAndPlayer() {
+        for (const auto& asteroid : asteroids) {
+            if (asteroid.Collide(player)) {
+                float damage = static_cast<float>(GetRandomValue(10, 20));
+                player.TakeDamage(damage);
             }
         }
     }
@@ -200,6 +209,7 @@ namespace World {
                 UpdateEntities(bullets);
                 UpdateEntities(asteroids);
                 CollideBulletsAndAsteroids();
+                CollideAsteroidsAndPlayer();
                 CullFromSceen(spaceships);
                 CullFromSceen(bullets);
                 CullFromSceen(asteroids);
