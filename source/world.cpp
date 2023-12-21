@@ -240,8 +240,8 @@ namespace World {
         DrawEntities(asteroids);
         EndMode2D();
         //DrawFPS(0, 0);
-        Sprite::DrawText(TextFormat("Score [%d]", score), Vector2Zero(), 50.0f, 10.0f, RAYWHITE);
-        Sprite::DrawText(TextFormat("Time Limit [%.0f]", playerTimeLimit), Vector2{0.0f, 50.0f}, 25.0f, 10.0f, RAYWHITE);
+        Sprite::DrawText(TextFormat("Score: %d", score), Vector2Zero(), 50.0f, 10.0f, RAYWHITE);
+        Sprite::DrawText(TextFormat("Time Limit: %.0f seconds", playerTimeLimit), Vector2{0.0f, 50.0f}, 25.0f, 10.0f, RAYWHITE);
     }
 
     void Draw() {
@@ -249,7 +249,7 @@ namespace World {
             case GameState::Logo:
             {
                 Sprite::DrawBackground();
-                Sprite::DrawTextCenter("Press [Enter] to Start", 75.0f, 10.0f, RAYWHITE);
+                Sprite::DrawTextCenter("Press [Enter] to Start", Vector2Zero(), 75.0f, 10.0f, RAYWHITE);
                 break;
             }
 
@@ -261,14 +261,15 @@ namespace World {
             case GameState::Paused:
             {
                 DrawGame();
-                Sprite::DrawTextCenter("Press [P] to Unpause", 50.0f, 10.0f, RAYWHITE);
+                Sprite::DrawTextCenter("Press [P] to Unpause", Vector2Zero(), 50.0f, 10.0f, RAYWHITE);
                 break;
             }
 
             case GameState::GameOver:
             {
                 Sprite::DrawBackground();
-                Sprite::DrawTextCenter(TextFormat("Score %d\n\n\n\nPress [Enter] to Play Again", score), 50.0f, 10.0f, RAYWHITE);
+                Sprite::DrawTextCenter(TextFormat("Score: %d", score), Vector2Zero(), 50.0f, 10.0f, RAYWHITE);
+                Sprite::DrawTextCenter("Press [Enter] to Play Again", Vector2{0.0f, 50.0f}, 25.0f, 10.0f, RAYWHITE);
                 break;
             }
         }

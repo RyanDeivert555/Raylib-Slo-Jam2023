@@ -41,7 +41,7 @@ namespace Sprite {
     Vector2 Size(std::size_t id);
     Vector2 Center(std::size_t id, Vector2 scale);
     void DrawText(const char* text, Vector2 position, float fontSize, float fontSpacing, Color tint);
-    void DrawTextCenter(const char* text, float fontSize, float fontSpacing, Color tint);
+    void DrawTextCenter(const char* text, Vector2 offset, float fontSize, float fontSpacing, Color tint);
     void Draw(std::size_t id, Vector2 position, Vector2 scale, float rotation, Vector2 origin);
     void DrawBackground();
     void UnloadTextures();

@@ -118,7 +118,7 @@ namespace Sprite {
         DrawTextEx(font, text, position, fontSize, fontSpacing, tint);
     }
 
-    void DrawTextCenter(const char* text, float fontSize, float fontSpacing, Color tint) {
+    void DrawTextCenter(const char* text, Vector2 offset, float fontSize, float fontSpacing, Color tint) {
         float screenWidth = static_cast<float>(GetScreenWidth());
         float screenHeight = static_cast<float>(GetScreenHeight());
         Vector2 screenSize{screenWidth, screenHeight};
@@ -126,6 +126,7 @@ namespace Sprite {
         Vector2 size = MeasureTextEx(font, text, fontSize, fontSpacing);
         Vector2 centerSize = Vector2Scale(size, 0.5f);
         Vector2 centerPosition = Vector2Subtract(centerScreen, centerSize);
+        centerPosition = Vector2Add(centerPosition, offset); 
         Sprite::DrawText(text, centerPosition, fontSize, fontSpacing, tint);
     }
 
