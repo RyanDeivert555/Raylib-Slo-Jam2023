@@ -1,8 +1,7 @@
 #include "../include/spaceship.h"
 #include "../include/sprite.h"
 #include "../include/world.h"
-#include "raylib.h"
-#include "raymath.h"
+#include "../include/sound.h"
 // debug
 #include <iostream>
 
@@ -26,6 +25,7 @@ void Spaceship::TakeDamage(float damage) {
 
 void Spaceship::Shoot() {
     if (_canShoot) {
+        SFX::PlaySound(SFX::projectileShootId);
         Vector2 direction = Vector2{
             cosf(Rotation * DEG2RAD), 
             sinf(Rotation * DEG2RAD)

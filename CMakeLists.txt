@@ -41,6 +41,7 @@ add_executable(${PROJECT_NAME} source/main.cpp
   include/player.h source/player.cpp
   include/npc_ship.h source/npc_ship.cpp
   include/world.h source/world.cpp
+  include/sound.h source/sound.cpp
 )
 #set(raylib_VERBOSE 1)
 target_link_libraries(${PROJECT_NAME} raylib)
