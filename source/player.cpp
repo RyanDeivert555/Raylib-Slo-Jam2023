@@ -5,6 +5,7 @@
 
 Player::Player(std::size_t id) : Spaceship(id) {
     IsPlayer = true;
+    Speed = 400.0f;
 }
 
 void Player::getInput() {

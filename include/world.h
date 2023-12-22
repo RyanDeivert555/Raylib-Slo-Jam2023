@@ -25,12 +25,14 @@ namespace World {
     extern GameState state;
     extern std::vector<NpcShip> spaceships;
     extern std::vector<Bullet> bullets;
+    extern std::vector<Bullet> playerBullets;
     extern std::vector<Asteroid> asteroids;
     extern Player player;
     extern Camera2D camera;
 
     NpcShip& SpawnSpaceship(std::size_t textureId);
-    Bullet& SpawnBullet(Vector2 position, Vector2 velocity, float speed, bool fromPlayer, std::size_t textureId);
+    Bullet& SpawnBullet(Vector2 position, Vector2 velocity, float speed, std::size_t textureId);
+    Bullet& SpawnPlayerBullet(Vector2 position, Vector2 velocity, float speed, std::size_t textureId);
     Asteroid& SpawnAsteroid(int level);
     void Update();
     void Draw();

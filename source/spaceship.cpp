@@ -31,7 +31,12 @@ void Spaceship::Shoot() {
             sinf(Rotation * DEG2RAD)
         };
         float speed = Speed * 5.0f;
-        World::SpawnBullet(Position, direction, speed, IsPlayer, Sprite::blueProjectileId);
+        if (IsPlayer) {
+            World::SpawnPlayerBullet(Position, direction, speed, Sprite::blueProjectileId);
+        }
+        else {
+            World::SpawnBullet(Position, direction, speed, Sprite::blueProjectileId);
+        }
         _canShoot = false;
     }
     else {

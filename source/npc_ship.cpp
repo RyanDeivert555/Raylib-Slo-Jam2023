@@ -7,7 +7,7 @@
 NpcShip::NpcShip(std::size_t id) : Spaceship(id) {
     Position = GetSpawnPoint();
     Rotation = static_cast<float>(GetRandomValue(-180, 180));
-    Speed = static_cast<float>(GetRandomValue(150, 400));
+    Speed = static_cast<float>(GetRandomValue(200, 700));
     RotationSpeed = static_cast<float>(GetRandomValue(50, 200));
     MaxShield = static_cast<float>(GetRandomValue(50, 150));
     Shield = MaxShield;
@@ -73,8 +73,8 @@ void NpcShip::updateState() {
     }
 }
 
-void NpcShip::SetState(State newState) {
-    _state = newState;
+void NpcShip::ReactToDamage() {
+    _state = GetRandomValue(0, 1) ? State::Flighty : State::Aggresive;
 }
 
 void NpcShip::Update() {

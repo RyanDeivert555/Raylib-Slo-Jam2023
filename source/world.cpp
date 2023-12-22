@@ -1,10 +1,9 @@
 #include "../include/world.h"
 #include "../include/sprite.h"
-#include "raylib.h"
-#include "raymath.h"
 #include <type_traits>
 // debug
 #include <iostream>
+#include <vector>
 
 Vector2 GetRandomVector2(float xMin, float xMax, float yMin, float yMax) {
     float x = static_cast<float>(GetRandomValue(xMin, xMax));
@@ -37,6 +36,7 @@ namespace World {
     GameState state = GameState::Logo;
     std::vector<NpcShip> spaceships{};
     std::vector<Bullet> bullets{};
+    std::vector<Bullet> playerBullets{};
     std::vector<Asteroid> asteroids{};
     Player player{Sprite::redShip1Id};
     const float cameraZoomFactor = 2.0f;
@@ -75,9 +75,14 @@ namespace World {
         return spaceships.back();
     }
 
-    Bullet& SpawnBullet(Vector2 position, Vector2 velocity, float speed, bool fromPlayer, std::size_t textureId) {
-        bullets.emplace_back(position, velocity, speed, fromPlayer, textureId);
+    Bullet& SpawnBullet(Vector2 position, Vector2 velocity, float speed, std::size_t textureId) {
+        bullets.emplace_back(position, velocity, speed, textureId);
         return bullets.back();
+    }
+
+    Bullet& SpawnPlayerBullet(Vector2 position, Vector2 velocity, float speed, std::size_t textureId) {
+        playerBullets.emplace_back(position, velocity, speed, textureId);
+        return playerBullets.back();
     }
 
     Asteroid& SpawnAsteroid(int level) {
@@ -109,14 +114,12 @@ namespace World {
     }
 
     void CollideBulletsAndAsteroids() {
-        for (auto& bullet : bullets) {
+        for (auto& bullet : playerBullets) {
             for (auto& asteroid : asteroids) {
                 if (bullet.Collide(asteroid)) {
                     bullet.Kill();
                     asteroid.Split();
-                    if (bullet.FromPlayer) {
-                        score++;
-                    }
+                    score++;
                 }
             }
         }
@@ -127,6 +130,22 @@ namespace World {
             if (asteroid.Collide(player)) {
                 float damage = static_cast<float>(GetRandomValue(10, 20));
                 player.TakeDamage(damage);
+            }
+        }
+    }
+
+    void CollideBulletsAndNpcs() {
+        for (auto& bullet : playerBullets) {
+            for (auto& npc : spaceships) {
+                if (bullet.Collide(npc)) {
+                    bullet.Kill();
+                    float damage = static_cast<float>(GetRandomValue(10, 50));
+                    npc.TakeDamage(damage);
+                    if (!npc.Alive) {
+                        score += 5;
+                    }
+                    npc.ReactToDamage();
+                }
             }
         }
     }
@@ -208,11 +227,14 @@ namespace World {
                 UpdateCamera();
                 UpdateEntities(spaceships);
                 UpdateEntities(bullets);
+                UpdateEntities(playerBullets);
                 UpdateEntities(asteroids);
                 CollideBulletsAndAsteroids();
                 CollideAsteroidsAndPlayer();
+                CollideBulletsAndNpcs();
                 CullFromSceen(spaceships);
                 CullFromSceen(bullets);
+                CullFromSceen(playerBullets);
                 CullFromSceen(asteroids);
                 if (IsKeyPressed(KEY_P)) {
                     state = GameState::Paused;
@@ -250,6 +272,7 @@ namespace World {
         BeginMode2D(camera);
         player.Draw();
         DrawEntities(bullets);
+        DrawEntities(playerBullets);
         DrawEntities(spaceships);
         DrawEntities(asteroids);
         EndMode2D();

@@ -22,6 +22,6 @@ private:
 
 public:
     NpcShip(std::size_t id);
-    void SetState(State newState);
+    void ReactToDamage();
     void Update() override;
 };
