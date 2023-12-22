@@ -44,6 +44,7 @@ void Player::Reset() {
     Alive = true;
     Shield = MaxShield;
     _warnNoShield = false;
+    _warningTimer = _maxWarningTimer;
 }
 
 void Player::Update() {

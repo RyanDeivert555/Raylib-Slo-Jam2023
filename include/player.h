@@ -4,7 +4,8 @@
 class Player : public Spaceship {
 private:
     bool _warnNoShield = false;
-    float _warningTimer = 3.0f;
+    float _maxWarningTimer = 3.0f;
+    float _warningTimer = _maxWarningTimer;
 
     void getInput();
     void warnNoShields();
