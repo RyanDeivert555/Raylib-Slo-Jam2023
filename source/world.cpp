@@ -44,7 +44,7 @@ namespace World {
     const float maxZoom = 1.0f;
     Camera2D camera{
         .offset = Vector2{windowWidth / 2.0f, windowHeight / 2.0f},
-        .target = Vector2{1000.0f, 1000.0f}, // create "zoom to" effect for player
+        .target = player.Position,
         .rotation = 0.0f,
         .zoom = 1.0f
     };
@@ -66,7 +66,8 @@ namespace World {
         asteroids.clear();
         score = 0;
         playerTimeLimit = maxTimeLimit;
-        player.Position = Vector2Zero();
+        player.Reset();
+        camera.target = player.Position;
     }
 
     NpcShip& SpawnSpaceship(std::size_t textureId) {
@@ -220,6 +221,9 @@ namespace World {
                 if (gameOver) {
                     state = GameState::GameOver;
                 }
+                if (!player.Alive) {
+                    state = GameState::GameOver;
+                }
                 break;
             }
             case GameState::Paused:
@@ -250,8 +254,9 @@ namespace World {
         DrawEntities(asteroids);
         EndMode2D();
         //DrawFPS(0, 0);
-        Sprite::DrawText(TextFormat("Score: %d", score), Vector2Zero(), 50.0f, 10.0f, RAYWHITE);
+        Sprite::DrawText(TextFormat("Score: %zu", score), Vector2Zero(), 50.0f, 10.0f, RAYWHITE);
         Sprite::DrawText(TextFormat("Time Limit: %.0f seconds", playerTimeLimit), Vector2{0.0f, 50.0f}, 25.0f, 10.0f, RAYWHITE);
+        player.DrawShieldWarning();
     }
 
     void Draw() {
@@ -278,6 +283,9 @@ namespace World {
             case GameState::GameOver:
             {
                 Sprite::DrawBackground();
+                if (!player.Alive) {
+                    Sprite::DrawTextCenter("You Died!", Vector2{0.0f, -50.0f}, 50.0f, 10.0f, RAYWHITE);
+                }
                 Sprite::DrawTextCenter(TextFormat("Score: %d", score), Vector2Zero(), 50.0f, 10.0f, RAYWHITE);
                 Sprite::DrawTextCenter("Press [Enter] to Play Again", Vector2{0.0f, 50.0f}, 25.0f, 10.0f, RAYWHITE);
                 break;

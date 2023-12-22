@@ -76,5 +76,5 @@ void Spaceship::Draw() const {
     static const Vector2 shieldScale{2.0f, 2.0f};
     float shieldRange = Normalize(Shield / MaxShield, 0.0f, 1.0f);
     Vector2 shieldCenter = Sprite::Center(Sprite::shieldId, shieldScale);
-    Sprite::Draw(Sprite::shieldId, Position, shieldScale, Rotation + 90.0f, shieldCenter, ColorAlpha(SKYBLUE, shieldRange)); 
+    Sprite::Draw(Sprite::shieldId, Position, shieldScale, Rotation + 90.0f, shieldCenter, ColorAlpha(BLUE, shieldRange)); 
 }
