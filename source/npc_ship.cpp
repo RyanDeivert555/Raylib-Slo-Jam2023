@@ -17,8 +17,8 @@ void NpcShip::rotateToTarget() {
     // within 1 degrees
     if (std::abs(Rotation - _targetRotation) > 1.0f) {
         float rotationDelta = _targetRotation - Rotation;
-        rotationDelta = fmod(rotationDelta + 180.0f, 360.0f) - 180.0f;
         // ensure rotationDir is within -180 and 180 degrees
+        rotationDelta = fmod(rotationDelta + 180.0f, 360.0f) - 180.0f;
         float rotationDir = (rotationDelta > 0.0f) ? 1.0f : -1.0f;
         Rotation += RotationSpeed * rotationDir * GetFrameTime();
     }
