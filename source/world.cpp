@@ -57,6 +57,7 @@ namespace World {
         .rotation = 0.0f,
         .zoom = maxZoom
     };
+    bool supportController = false;
 
     // TODO: better culling system for asteroids for performance
     const float asteroidTime = 0.5f;
@@ -78,6 +79,10 @@ namespace World {
         score = 0;
         playerTimeLimit = maxTimeLimit;
         camera.target = player.Position;
+    }
+
+    void CheckGamePad() {
+        supportController = IsGamepadAvailable(0);
     }
 
     NpcShip& SpawnSpaceship(std::size_t textureId) {
@@ -203,10 +208,10 @@ namespace World {
             float cameraSpeed = std::max(length * 2.0f, 30.0f);
             camera.target = Vector2Add(camera.target, Vector2Scale(difference, cameraSpeed * GetFrameTime() / length));
         }
-        if (IsKeyDown(KEY_UP)) {
+        if (IsKeyDown(KEY_UP) || IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_TRIGGER_1)) {
             camera.zoom = Clamp(camera.zoom + cameraZoomFactor * GetFrameTime(), minZoom, maxZoom);
         }
-        if (IsKeyDown(KEY_DOWN)) {
+        if (IsKeyDown(KEY_DOWN) || IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_TRIGGER_1)) {
             camera.zoom = Clamp(camera.zoom - cameraZoomFactor * GetFrameTime(), minZoom, maxZoom);
         }
     }
@@ -230,10 +235,11 @@ namespace World {
     }
 
     void Update() {
+        CheckGamePad();
         switch (state) {
             case GameState::Logo:
             {
-                if (IsKeyPressed(KEY_ENTER)) {
+                if (IsKeyPressed(KEY_ENTER) || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN)) {
                     state = GameState::Gameplay;
                 }
                 break;
@@ -256,7 +262,7 @@ namespace World {
                 CullFromSceen(bullets);
                 CullFromSceen(playerBullets);
                 CullFromSceen(asteroids);
-                if (IsKeyPressed(KEY_P)) {
+                if (IsKeyPressed(KEY_P) || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_MIDDLE_RIGHT)) {
                     state = GameState::Paused;
                 }
                 bool gameOver = DecrementPlayerTimer();
@@ -270,7 +276,7 @@ namespace World {
             }
             case GameState::Paused:
             {
-                if (IsKeyPressed(KEY_P)) {
+                if (IsKeyPressed(KEY_P) || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_MIDDLE_RIGHT)) {
                     state = GameState::Gameplay;
                 }
                 break;
@@ -278,7 +284,7 @@ namespace World {
 
             case GameState::GameOver:
             {
-                if (IsKeyPressed(KEY_ENTER)) {
+                if (IsKeyPressed(KEY_ENTER) || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN)) {
                     state = GameState::Gameplay;
                     Reset();
                 }
@@ -308,7 +314,12 @@ namespace World {
             case GameState::Logo:
             {
                 Sprite::DrawBackground();
-                Sprite::DrawTextCenter("Press [Enter] to Start", Vector2Zero(), 75.0f, 10.0f, RAYWHITE);
+                if (supportController) {
+                    Sprite::DrawTextCenter("Press [A] to Start", Vector2Zero(), 75.0f, 10.0f, RAYWHITE);    
+                }
+                else {
+                    Sprite::DrawTextCenter("Press [Enter] to Start", Vector2Zero(), 75.0f, 10.0f, RAYWHITE);      
+                }
                 break;
             }
 
@@ -320,7 +331,12 @@ namespace World {
             case GameState::Paused:
             {
                 DrawGame();
-                Sprite::DrawTextCenter("Press [P] to Unpause", Vector2Zero(), 50.0f, 10.0f, RAYWHITE);
+                if (supportController) {
+                    Sprite::DrawTextCenter("Press [Start] to Unpause", Vector2Zero(), 50.0f, 10.0f, RAYWHITE);
+                }
+                else {
+                    Sprite::DrawTextCenter("Press [P] to Unpause", Vector2Zero(), 50.0f, 10.0f, RAYWHITE);
+                }
                 break;
             }
 
@@ -331,7 +347,12 @@ namespace World {
                     Sprite::DrawTextCenter("You Died!", Vector2{0.0f, -50.0f}, 50.0f, 10.0f, RAYWHITE);
                 }
                 Sprite::DrawTextCenter(TextFormat("Score: %d", score), Vector2Zero(), 50.0f, 10.0f, RAYWHITE);
-                Sprite::DrawTextCenter("Press [Enter] to Play Again", Vector2{0.0f, 50.0f}, 25.0f, 10.0f, RAYWHITE);
+                if (supportController) {
+                    Sprite::DrawTextCenter("Press [A] to Play Again", Vector2{0.0f, 50.0f}, 25.0f, 10.0f, RAYWHITE);
+                }
+                else {
+                    Sprite::DrawTextCenter("Press [Enter] to Play Again", Vector2{0.0f, 50.0f}, 25.0f, 10.0f, RAYWHITE);
+                }
                 break;
             }
         }

@@ -10,21 +10,23 @@ Player::Player(std::size_t id) : Spaceship(id) {
 }
 
 void Player::getInput() {
-    if (IsKeyDown(KEY_D)) {
+    //std::cout << GetGamepadAxisMovement(0, GAMEPAD_AXIS_RIGHT_X) << "\n";
+    //std::cout << GetGamepadAxisMovement(0, GAMEPAD_AXIS_RIGHT_Y) << "\n";
+    if (IsKeyDown(KEY_D) || static_cast<int>(GetGamepadAxisMovement(0, GAMEPAD_AXIS_RIGHT_X)) == 1) {
         Rotation += RotationSpeed * GetFrameTime();
     }
-    if (IsKeyDown(KEY_A)) {
+    if (IsKeyDown(KEY_A) || static_cast<int>(GetGamepadAxisMovement(0, GAMEPAD_AXIS_RIGHT_X)) == -1) {
         Rotation -= RotationSpeed * GetFrameTime();
     }
-    if (IsKeyDown(KEY_W)) {
+    if (IsKeyDown(KEY_W) || static_cast<int>(GetGamepadAxisMovement(0, GAMEPAD_AXIS_LEFT_Y)) == -1) {
         Speed += Acceleration * GetFrameTime();
         Speed = Clamp(Speed, MinSpeed, MaxSpeed);
     }
-    if (IsKeyDown(KEY_S)) {
+    if (IsKeyDown(KEY_S) || static_cast<int>(GetGamepadAxisMovement(0, GAMEPAD_AXIS_LEFT_Y)) == 1) {
         Speed -= Acceleration * GetFrameTime();
         Speed = Clamp(Speed, MinSpeed, MaxSpeed);
     }
-    if (IsKeyDown(KEY_SPACE)) {
+    if (IsKeyDown(KEY_SPACE) || IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_TRIGGER_2)) {
         Shoot();
     }
 }
