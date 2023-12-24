@@ -37,22 +37,15 @@ void NpcShip::avoidPlayer() {
     const Player& player = World::player;
     Vector2 positionDifference = Vector2Subtract(Position, player.Position);
     float angle = std::atan2(positionDifference.y, positionDifference.x) * RAD2DEG;
-    _targetRotation = angle;
+    _targetRotation = angle;  
     rotateToTarget();
 }
 
 void NpcShip::findPlayer() {
     const Player& player = World::player;
-    // TODO: make random movement less jittery
-    if (GetRandomValue(0, 3)) {
-        _targetRotation = static_cast<float>(GetRandomValue(-180, 180));
-
-    }
-    else {
-        Vector2 positionDifference = Vector2Subtract(player.Position, Position);
-        float angle = std::atan2(positionDifference.y, positionDifference.x) * RAD2DEG;
-        _targetRotation = angle;    
-    }
+    Vector2 positionDifference = Vector2Subtract(player.Position, Position);
+    float angle = std::atan2(positionDifference.y, positionDifference.x) * RAD2DEG;
+    _targetRotation = angle;
     rotateToTarget();
 }
 
