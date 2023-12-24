@@ -6,11 +6,16 @@
 
 NpcShip::NpcShip(std::size_t id) : Spaceship(id) {
     Position = GetSpawnPoint();
-    Rotation = static_cast<float>(GetRandomValue(-180, 180));
-    Speed = static_cast<float>(GetRandomValue(200, 700));
-    RotationSpeed = static_cast<float>(GetRandomValue(50, 200));
-    MaxShield = static_cast<float>(GetRandomValue(50, 150));
+    Rotation = GetRandomValueF(-180.0f, 180.0f);
+    Speed = GetRandomValueF(200.0f, 700.0f);
+    RotationSpeed = GetRandomValueF(50.0f, 200.0f);
+    MaxShield = GetRandomValueF(50.0f, 150.0f);
     Shield = MaxShield;
+    // TODO: get random floats
+    _attackCooldown = GetRandomValueF(0.2f, 0.5f);
+    _currentAttackCooldown = _attackCooldown;
+    _invulerabilityCooldown = 0.5f;
+    _currentInvulerabilityCooldown = _invulerabilityCooldown;
 }
 
 void NpcShip::rotateToTarget() {
@@ -28,8 +33,8 @@ void NpcShip::passiveFlight() {
     _randomDirectionTimer -= GetFrameTime();
     rotateToTarget();
     if (_randomDirectionTimer <= 0.0f) {
-        _randomDirectionTimer = static_cast<float>(GetRandomValue(5, 10));
-        _targetRotation = static_cast<float>(GetRandomValue(-180, 180));
+        _randomDirectionTimer = GetRandomValueF(5.0f, 10.0f);
+        _targetRotation = GetRandomValueF(-180.0f, 180.0f);
     }
 }
 

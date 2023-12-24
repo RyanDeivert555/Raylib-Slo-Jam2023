@@ -2,7 +2,7 @@
 #include "entity.h"
 
 class Spaceship : public Entity {
-private:
+protected:
     bool _canShoot = true;
     float _attackCooldown = DefaultCooldown;
     float _currentAttackCooldown = _attackCooldown;

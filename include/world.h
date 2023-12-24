@@ -10,6 +10,7 @@ constexpr int windowHeight = 1080; // 1080
 
 static constexpr float SpawnOffset = 500.0f;
 
+float GetRandomValueF(float min, float max);
 Vector2 GetRandomVector2(float xMin, float xMax, float yMin, float yMax);
 Vector2 GetSpawnPoint();
 

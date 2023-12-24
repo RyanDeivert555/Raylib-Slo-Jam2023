@@ -4,9 +4,19 @@
 #include "raymath.h"
 #include <type_traits>
 
+float GetRandomValueF(float min, float max) {
+    if (min > max) {
+        float temp = min;
+        min = max;
+        max = temp;
+    }
+    float param = rand() / static_cast<float>(RAND_MAX);
+    return float(min + (max - min) * param);
+}
+
 Vector2 GetRandomVector2(float xMin, float xMax, float yMin, float yMax) {
-    float x = static_cast<float>(GetRandomValue(xMin, xMax));
-    float y = static_cast<float>(GetRandomValue(yMin, yMax));
+    float x = GetRandomValueF(xMin, xMax);
+    float y = GetRandomValueF(yMin, yMax);
     Vector2 result{x, y};
 
     return result;
@@ -128,7 +138,7 @@ namespace World {
     void CollideAsteroidsAndPlayer() {
         for (const auto& asteroid : asteroids) {
             if (asteroid.Collide(player)) {
-                float damage = static_cast<float>(GetRandomValue(10, 20));
+                float damage = GetRandomValueF(10.0f, 20.0f);
                 player.TakeDamage(damage);
             }
         }
@@ -139,7 +149,7 @@ namespace World {
             for (auto& npc : spaceships) {
                 if (bullet.Collide(npc)) {
                     bullet.Kill();
-                    float damage = static_cast<float>(GetRandomValue(10, 50));
+                    float damage = GetRandomValueF(10.0f, 50.0f);
                     npc.TakeDamage(damage);
                     if (!npc.Alive) {
                         score += 5;
@@ -154,7 +164,7 @@ namespace World {
         for (auto& bullet : bullets) {
             if (bullet.Collide(player)) {
                 bullet.Kill();
-                float damage = static_cast<float>(GetRandomValue(10, 25));
+                float damage = GetRandomValueF(10.0f, 25.0f);
                 player.TakeDamage(damage);
             }
         }
