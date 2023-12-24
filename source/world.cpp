@@ -224,6 +224,7 @@ namespace World {
         for (const T& e : entities) {
             if (e.ShouldDraw) {
                 e.Draw();
+                DrawRectangleLinesEx(e.GetRect(), 1.0f, GREEN);
             }
         }
     }
@@ -290,6 +291,7 @@ namespace World {
         Sprite::DrawBackground();
         BeginMode2D(camera);
         player.Draw();
+        DrawRectangleLinesEx(player.GetRect(), 1.0f, GREEN);
         DrawEntities(bullets);
         DrawEntities(playerBullets);
         DrawEntities(spaceships);

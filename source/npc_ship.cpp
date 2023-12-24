@@ -7,8 +7,8 @@
 NpcShip::NpcShip(std::size_t id) : Spaceship(id) {
     Position = GetSpawnPoint();
     Rotation = GetRandomValueF(-180.0f, 180.0f);
-    Speed = GetRandomValueF(200.0f, 700.0f);
-    RotationSpeed = GetRandomValueF(50.0f, 200.0f);
+    Speed = GetRandomValueF(300.0f, 500.0f);
+    RotationSpeed = GetRandomValueF(50.0f, 150.0f);
     MaxShield = GetRandomValueF(50.0f, 150.0f);
     Shield = MaxShield;
     // TODO: get random floats

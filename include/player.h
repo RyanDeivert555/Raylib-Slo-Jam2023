@@ -12,8 +12,8 @@ private:
     
 public:
     static constexpr float Acceleration = 200.0f;
-    static constexpr float MaxSpeed = 800.0f;
-    static constexpr float MinSpeed = 150.0f;
+    static constexpr float MaxSpeed = 1000.0f;
+    static constexpr float MinSpeed = 200.0f;
 
     Player(std::size_t id);
     void Reset();
