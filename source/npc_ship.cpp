@@ -1,6 +1,5 @@
 #include "../include/npc_ship.h"
 #include "../include/world.h"
-#include "raylib.h"
 // debug
 #include <iostream>
 
@@ -68,13 +67,18 @@ void NpcShip::updateState() {
         case State::Aggresive:
         {
             findPlayer();
+            if (std::abs(Rotation - _targetRotation) <= 1.0f) {
+                Shoot();
+            }
             break;
         }
     }
 }
 
 void NpcShip::ReactToDamage() {
-    _state = GetRandomValue(0, 1) ? State::Flighty : State::Aggresive;
+    if (_state == State::Passive) {
+        _state = GetRandomValue(0, 1) ? State::Flighty : State::Aggresive;
+    } 
 }
 
 void NpcShip::Update() {

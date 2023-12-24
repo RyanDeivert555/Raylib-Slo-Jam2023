@@ -1,9 +1,10 @@
 #include "../include/world.h"
 #include "../include/sprite.h"
+#include "raylib.h"
+#include "raymath.h"
 #include <type_traits>
 // debug
 #include <iostream>
-#include <vector>
 
 Vector2 GetRandomVector2(float xMin, float xMax, float yMin, float yMax) {
     float x = static_cast<float>(GetRandomValue(xMin, xMax));

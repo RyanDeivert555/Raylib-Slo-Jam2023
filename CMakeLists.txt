@@ -42,7 +42,6 @@ add_executable(${PROJECT_NAME} source/main.cpp
   include/npc_ship.h source/npc_ship.cpp
   include/world.h source/world.cpp
   include/sound.h source/sound.cpp
-  include/raycast.h source/raycast.cpp
 )
 #set(raylib_VERBOSE 1)
 target_link_libraries(${PROJECT_NAME} raylib)
