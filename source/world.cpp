@@ -334,4 +334,12 @@ namespace World {
             }
         }
     }
+
+    void MainLoop() {
+        Update();
+        BeginDrawing();
+        ClearBackground(WHITE);
+        Draw();
+        EndDrawing();
+    }
 }

@@ -35,6 +35,5 @@ namespace World {
     Bullet& SpawnBullet(Vector2 position, Vector2 velocity, float speed, std::size_t textureId);
     Bullet& SpawnPlayerBullet(Vector2 position, Vector2 velocity, float speed, std::size_t textureId);
     Asteroid& SpawnAsteroid(int level);
-    void Update();
-    void Draw();
+    void MainLoop();
 }

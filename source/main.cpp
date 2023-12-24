@@ -7,14 +7,6 @@
 	#include <emscripten/emscripten.h>
 #endif
 
-void MainLoop() {
-    World::Update();
-    BeginDrawing();
-    ClearBackground(WHITE);
-    World::Draw();
-    EndDrawing();
-}
-
 int main() {
     SetTraceLogLevel(LOG_WARNING);
     InitWindow(windowWidth, windowHeight, "GameJam2023");
@@ -23,11 +15,11 @@ int main() {
     SFX::Init();
 
 #ifdef __EMSCRIPTEN__
-    emscripten_set_main_loop(MainLoop, 60, 1);
+    emscripten_set_main_loop(World::MainLoop, 60, 1);
 #else
     SetTargetFPS(60);
     while (!WindowShouldClose()) {
-        MainLoop();
+        World::MainLoop();
     }
 #endif
 
