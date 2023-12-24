@@ -3,8 +3,6 @@
 #include "raylib.h"
 #include "raymath.h"
 #include <type_traits>
-// debug
-#include <iostream>
 
 Vector2 GetRandomVector2(float xMin, float xMax, float yMin, float yMax) {
     float x = static_cast<float>(GetRandomValue(xMin, xMax));
@@ -41,17 +39,17 @@ namespace World {
     std::vector<Asteroid> asteroids{};
     Player player{Sprite::redShip1Id};
     const float cameraZoomFactor = 2.0f;
-    const float minZoom = 0.5f;
-    const float maxZoom = 1.0f;
+    const float minZoom = 0.25f;
+    const float maxZoom = 0.75f;
     Camera2D camera{
         .offset = Vector2{windowWidth / 2.0f, windowHeight / 2.0f},
         .target = player.Position,
         .rotation = 0.0f,
-        .zoom = 1.0f
+        .zoom = maxZoom
     };
 
     // TODO: better culling system for asteroids for performance
-    const float asteroidTime = 1.0f;
+    const float asteroidTime = 0.5f;
     float asteroidSpawnTimer = asteroidTime;
     const float shipTime = 5.0f;
     float shipSpawnTimer = shipTime;
@@ -64,10 +62,11 @@ namespace World {
     void Reset() {
         spaceships.clear();
         bullets.clear();
+        playerBullets.clear();
         asteroids.clear();
+        player.Reset();
         score = 0;
         playerTimeLimit = maxTimeLimit;
-        player.Reset();
         camera.target = player.Position;
     }
 
@@ -151,6 +150,16 @@ namespace World {
         }
     }
 
+    void CollideBulletsAndPlayer() {
+        for (auto& bullet : bullets) {
+            if (bullet.Collide(player)) {
+                bullet.Kill();
+                float damage = static_cast<float>(GetRandomValue(10, 25));
+                player.TakeDamage(damage);
+            }
+        }
+    }
+
     template<class T>
     void CullFromSceen(std::vector<T>& entities) {
         for (T& entity : entities) {
@@ -205,8 +214,6 @@ namespace World {
         for (const T& e : entities) {
             if (e.ShouldDraw) {
                 e.Draw();
-                // debug
-                DrawRectangleLinesEx(e.GetRect(), 1.0f, GREEN);
             }
         }
     }
@@ -233,6 +240,7 @@ namespace World {
                 CollideBulletsAndAsteroids();
                 CollideAsteroidsAndPlayer();
                 CollideBulletsAndNpcs();
+                CollideBulletsAndPlayer();
                 CullFromSceen(spaceships);
                 CullFromSceen(bullets);
                 CullFromSceen(playerBullets);
