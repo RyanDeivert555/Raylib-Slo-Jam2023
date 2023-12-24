@@ -1,5 +1,6 @@
 #include "../include/npc_ship.h"
 #include "../include/world.h"
+#include "raylib.h"
 // debug
 #include <iostream>
 
@@ -42,9 +43,16 @@ void NpcShip::avoidPlayer() {
 
 void NpcShip::findPlayer() {
     const Player& player = World::player;
-    Vector2 positionDifference = Vector2Subtract(player.Position, Position);
-    float angle = std::atan2(positionDifference.y, positionDifference.x) * RAD2DEG;
-    _targetRotation = angle;
+    // TODO: make random movement less jittery
+    if (GetRandomValue(0, 3)) {
+        _targetRotation = static_cast<float>(GetRandomValue(-180, 180));
+
+    }
+    else {
+        Vector2 positionDifference = Vector2Subtract(player.Position, Position);
+        float angle = std::atan2(positionDifference.y, positionDifference.x) * RAD2DEG;
+        _targetRotation = angle;    
+    }
     rotateToTarget();
 }
 
@@ -67,7 +75,7 @@ void NpcShip::updateState() {
         case State::Aggresive:
         {
             findPlayer();
-            if (std::abs(Rotation - _targetRotation) <= 1.0f) {
+            if (std::abs(Rotation - _targetRotation) <= 1.0f && ShouldDraw) {
                 Shoot();
             }
             break;
@@ -78,7 +86,7 @@ void NpcShip::updateState() {
 void NpcShip::ReactToDamage() {
     if (_state == State::Passive) {
         _state = GetRandomValue(0, 1) ? State::Flighty : State::Aggresive;
-    } 
+    }
 }
 
 void NpcShip::Update() {

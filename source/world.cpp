@@ -51,7 +51,7 @@ namespace World {
     // TODO: better culling system for asteroids for performance
     const float asteroidTime = 0.5f;
     float asteroidSpawnTimer = asteroidTime;
-    const float shipTime = 5.0f;
+    const float shipTime = 3.0f;
     float shipSpawnTimer = shipTime;
 
     // player score and time limit
