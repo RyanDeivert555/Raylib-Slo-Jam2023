@@ -1,6 +1,8 @@
 #include "../include/sprite.h"
 #include "raylib.h"
 #include "raymath.h"
+// debug
+#include <iostream>
 
 namespace Sprite {
     std::vector<Texture2D> textures{};
@@ -27,6 +29,11 @@ namespace Sprite {
     std::size_t backgroundId{};
     std::size_t shieldId{};
     Font font{};
+    std::size_t ship0Id{};
+    std::size_t ship1Id{};
+    std::size_t ship2Id{};
+    std::size_t ship3Id{};
+    std::size_t ship4Id{};
 
     std::size_t AddTexture(const char *fileName) {
         Texture2D texture = LoadTexture(fileName);
@@ -36,30 +43,30 @@ namespace Sprite {
 
     void Init() {
         // ships
-        redShip1Id = AddTexture("../assets/redShip1.png");
-        blueShip1Id = AddTexture("../assets/blueShip1.png");
-        greenShip1Id = AddTexture("../assets/greenShip1.png");
-        orangeShip1Id = AddTexture("../assets/orangeShip1.png");
-        redShip2Id = AddTexture("../assets/redShip2.png");
-        blueShip2Id = AddTexture("../assets/blueShip2.png");
-        greenShip2Id = AddTexture("../assets/greenShip2.png");
-        orangeShip2Id = AddTexture("../assets/orangeShip2.png");
-        redShip3Id = AddTexture("../assets/redShip3.png");
-        blueShip3Id = AddTexture("../assets/blueShip3.png");
-        greenShip3Id = AddTexture("../assets/greenShip3.png");
-        orangeShip3Id = AddTexture("../assets/orangeShip3.png");
-        shipTextures.push_back(redShip1Id);
-        shipTextures.push_back(blueShip1Id);
-        shipTextures.push_back(greenShip1Id);
-        shipTextures.push_back(orangeShip1Id);
-        shipTextures.push_back(redShip2Id);
-        shipTextures.push_back(blueShip2Id);
-        shipTextures.push_back(greenShip2Id);
-        shipTextures.push_back(orangeShip2Id);
-        shipTextures.push_back(redShip3Id);
-        shipTextures.push_back(blueShip3Id);
-        shipTextures.push_back(greenShip3Id);
-        shipTextures.push_back(orangeShip3Id);
+        // redShip1Id = AddTexture("../assets/redShip1.png");
+        // blueShip1Id = AddTexture("../assets/blueShip1.png");
+        // greenShip1Id = AddTexture("../assets/greenShip1.png");
+        // orangeShip1Id = AddTexture("../assets/orangeShip1.png");
+        // redShip2Id = AddTexture("../assets/redShip2.png");
+        // blueShip2Id = AddTexture("../assets/blueShip2.png");
+        // greenShip2Id = AddTexture("../assets/greenShip2.png");
+        // orangeShip2Id = AddTexture("../assets/orangeShip2.png");
+        // redShip3Id = AddTexture("../assets/redShip3.png");
+        // blueShip3Id = AddTexture("../assets/blueShip3.png");
+        // greenShip3Id = AddTexture("../assets/greenShip3.png");
+        // orangeShip3Id = AddTexture("../assets/orangeShip3.png");
+        // shipTextures.push_back(redShip1Id);
+        // shipTextures.push_back(blueShip1Id);
+        // shipTextures.push_back(greenShip1Id);
+        // shipTextures.push_back(orangeShip1Id);
+        // shipTextures.push_back(redShip2Id);
+        // shipTextures.push_back(blueShip2Id);
+        // shipTextures.push_back(greenShip2Id);
+        // shipTextures.push_back(orangeShip2Id);
+        // shipTextures.push_back(redShip3Id);
+        // shipTextures.push_back(blueShip3Id);
+        // shipTextures.push_back(greenShip3Id);
+        // shipTextures.push_back(orangeShip3Id);
         // projectiles
         blueProjectileId = AddTexture("../assets/blueProjectile.png");
         bulletTextures.push_back(blueProjectileId);
@@ -76,6 +83,17 @@ namespace Sprite {
         backgroundId = AddTexture("../assets/background.png");
         shieldId = AddTexture("../assets/shield.png");
         font = LoadFontEx("../assets/font.ttf", 32, nullptr, 250);
+        // test
+        ship0Id = AddTexture("../assets/ship0.png");
+        ship1Id = AddTexture("../assets/ship1.png");
+        ship2Id = AddTexture("../assets/ship2.png");
+        ship3Id = AddTexture("../assets/ship3.png");
+        ship4Id = AddTexture("../assets/ship4.png");
+        shipTextures.push_back(ship0Id);
+        shipTextures.push_back(ship1Id);
+        shipTextures.push_back(ship2Id);
+        shipTextures.push_back(ship3Id);
+        shipTextures.push_back(ship4Id);
     }
 
     std::size_t GetRandomTexture(const std::vector<size_t>& ids) {
@@ -132,7 +150,7 @@ namespace Sprite {
     }
 
     void Draw(std::size_t id, Vector2 position, Vector2 scale, float rotation, Vector2 origin, Color tint) {
-        Texture2D texture = GetTexture(id);
+        const Texture2D& texture = GetTexture(id);
         float width = static_cast<float>(texture.width);
         float height = static_cast<float>(texture.height);
 

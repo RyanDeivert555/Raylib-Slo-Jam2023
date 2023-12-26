@@ -13,6 +13,7 @@ int main() {
     
     Sprite::Init();
     SFX::Init();
+    World::Init();
 
 #ifdef __EMSCRIPTEN__
     emscripten_set_main_loop(World::MainLoop, 60, 1);

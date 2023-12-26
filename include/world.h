@@ -31,6 +31,7 @@ namespace World {
     extern Player player;
     extern Camera2D camera;
 
+    void Init();
     NpcShip& SpawnSpaceship(std::size_t textureId);
     Bullet& SpawnBullet(Vector2 position, Vector2 velocity, float speed, std::size_t textureId);
     Bullet& SpawnPlayerBullet(Vector2 position, Vector2 velocity, float speed, std::size_t textureId);

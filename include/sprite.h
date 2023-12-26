@@ -35,6 +35,12 @@ namespace Sprite {
     extern std::size_t shieldId;
     // font
     extern Font font;
+    // overhauled sprites
+    extern std::size_t ship0Id;
+    extern std::size_t ship1Id;
+    extern std::size_t ship2Id;
+    extern std::size_t ship3Id;
+    extern std::size_t ship4Id;
 
     std::size_t AddTexture(const char* filePath);
     void Init();

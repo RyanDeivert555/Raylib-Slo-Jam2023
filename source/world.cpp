@@ -3,6 +3,8 @@
 #include "raylib.h"
 #include "raymath.h"
 #include <type_traits>
+// debug
+#include <iostream>
 
 float GetRandomValueF(float min, float max) {
     if (min > max) {
@@ -47,7 +49,8 @@ namespace World {
     std::vector<Bullet> bullets{};
     std::vector<Bullet> playerBullets{};
     std::vector<Asteroid> asteroids{};
-    Player player{Sprite::redShip1Id};
+    // sprites not init yet!
+    Player player{Sprite::ship0Id};
     const float cameraZoomFactor = 2.0f;
     const float minZoom = 0.25f;
     const float maxZoom = 0.75f;
@@ -69,6 +72,10 @@ namespace World {
     std::size_t score = 0;
     const float maxTimeLimit = 120.0f;
     float playerTimeLimit = maxTimeLimit;
+
+    void Init() {
+        player.TextureId = Sprite::ship0Id;
+    }
 
     void Reset() {
         spaceships.clear();
