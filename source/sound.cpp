@@ -6,6 +6,14 @@
 namespace SFX {
     std::vector<Sound> sounds{};
     std::size_t projectileShootId{};
+    std::size_t shipExplosionId{};
+    std::size_t asteroidExplosionId{};
+    std::size_t hitId{};
+    std::size_t aggressiveAiId{};
+    std::size_t flightyAiId{};
+    std::size_t loseId{};
+    std::size_t gameStartId{};
+    std::size_t gameOverId{};
 
     std::size_t AddSound(const char* filePath, float pitch) {
         Sound sound = LoadSound(filePath);
@@ -18,6 +26,14 @@ namespace SFX {
         InitAudioDevice();
         SetMasterVolume(0.5);
         projectileShootId = AddSound("../assets/projectileShoot.ogg");
+        shipExplosionId = AddSound("../assets/ship_explosion.ogg");
+        asteroidExplosionId = AddSound("../assets/asteroid_explosion.ogg");
+        hitId = AddSound("../assets/hit.ogg");
+        aggressiveAiId = AddSound("../assets/aggressive.ogg");
+        flightyAiId = AddSound("../assets/flighty.ogg");
+        loseId = AddSound("../assets/lose.ogg");
+        gameStartId = AddSound("../assets/game_start.ogg");
+        gameOverId = AddSound("../assets/time_out.ogg");
     }
 
     void PlaySound(std::size_t id) {

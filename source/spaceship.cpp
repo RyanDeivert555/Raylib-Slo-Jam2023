@@ -14,10 +14,12 @@ void Spaceship::TakeDamage(float damage) {
     if (!_vulnerable) {
         return;
     }
+    SFX::PlaySound(SFX::hitId);
     if (Shield >= 0.0f) {
         Shield -= damage;
     }
     else {
+        SFX::PlaySound(SFX::shipExplosionId);
         Kill();
     }
     _vulnerable = false;

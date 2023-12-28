@@ -1,5 +1,6 @@
 #include "../include/npc_ship.h"
 #include "../include/world.h"
+#include "../include/sound.h"
 #include "raylib.h"
 // debug
 #include <iostream>
@@ -84,6 +85,12 @@ void NpcShip::updateState() {
 void NpcShip::ReactToDamage() {
     if (_state == State::Passive) {
         _state = GetRandomValue(0, 1) ? State::Flighty : State::Aggresive;
+        if (_state == State::Flighty) {
+            SFX::PlaySound(SFX::flightyAiId);
+        }
+        else {
+            SFX::PlaySound(SFX::aggressiveAiId);
+        }
     }
 }
 

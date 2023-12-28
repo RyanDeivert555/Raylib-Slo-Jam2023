@@ -1,6 +1,7 @@
 #include "../include/asteroid.h"
 #include "../include/sprite.h"
 #include "../include/world.h"
+#include "../include/sound.h"
 // debug
 #include <iostream>
 
@@ -17,6 +18,7 @@ Asteroid::Asteroid(int level, std::size_t id) {
 }
 
 void Asteroid::Split() {
+    SFX::PlaySound(SFX::asteroidExplosionId);
     Kill();
     _level--;
     if (_level <= 0) return;

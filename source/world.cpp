@@ -1,5 +1,6 @@
 #include "../include/world.h"
 #include "../include/sprite.h"
+#include "../include/sound.h"
 #include "raylib.h"
 #include "raymath.h"
 #include <type_traits>
@@ -247,6 +248,7 @@ namespace World {
             case GameState::Logo:
             {
                 if (IsKeyPressed(KEY_ENTER) || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN)) {
+                    SFX::PlaySound(SFX::gameStartId);
                     state = GameState::Gameplay;
                 }
                 break;
@@ -274,9 +276,11 @@ namespace World {
                 }
                 bool gameOver = DecrementPlayerTimer();
                 if (gameOver) {
+                    SFX::PlaySound(SFX::gameOverId);
                     state = GameState::GameOver;
                 }
                 if (!player.Alive) {
+                    SFX::PlaySound(SFX::loseId);
                     state = GameState::GameOver;
                 }
                 break;
@@ -292,6 +296,7 @@ namespace World {
             case GameState::GameOver:
             {
                 if (IsKeyPressed(KEY_ENTER) || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN)) {
+                    SFX::PlaySound(SFX::gameStartId);
                     state = GameState::Gameplay;
                     Reset();
                 }
@@ -310,7 +315,6 @@ namespace World {
         DrawEntities(spaceships);
         DrawEntities(asteroids);
         EndMode2D();
-        //DrawFPS(0, 0);
         Sprite::DrawText(TextFormat("Score: %zu", score), Vector2Zero(), 50.0f, 10.0f, RAYWHITE);
         Sprite::DrawText(TextFormat("Time Limit: %.0f seconds", playerTimeLimit), Vector2{0.0f, 50.0f}, 25.0f, 10.0f, RAYWHITE);
         player.DrawShieldWarning();
