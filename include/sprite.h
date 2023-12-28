@@ -9,21 +9,8 @@ namespace Sprite {
     extern std::vector<std::size_t> shipTextures;
     extern std::vector<std::size_t> bulletTextures;
     extern std::vector<std::size_t> asteroidTextures;
-    // ship ids
-    extern std::size_t redShip1Id;
-    extern std::size_t blueShip1Id;
-    extern std::size_t greenShip1Id;
-    extern std::size_t orangeShip1Id;
-    extern std::size_t redShip2Id;
-    extern std::size_t blueShip2Id;
-    extern std::size_t greenShip2Id;
-    extern std::size_t orangeShip2Id;
-    extern std::size_t redShip3Id;
-    extern std::size_t blueShip3Id;
-    extern std::size_t greenShip3Id;
-    extern std::size_t orangeShip3Id;
     // projectiles
-    extern std::size_t blueProjectileId;
+    extern std::size_t projectileId;
     // asteroids
     extern std::size_t asteroid1Id;
     extern std::size_t asteroid2Id;
@@ -35,7 +22,7 @@ namespace Sprite {
     extern std::size_t shieldId;
     // font
     extern Font font;
-    // overhauled sprites
+    // ships
     extern std::size_t ship0Id;
     extern std::size_t ship1Id;
     extern std::size_t ship2Id;

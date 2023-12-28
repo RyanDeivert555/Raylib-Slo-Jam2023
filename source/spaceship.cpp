@@ -32,10 +32,10 @@ void Spaceship::Shoot() {
         };
         float speed = Speed * 5.0f;
         if (IsPlayer) {
-            World::SpawnPlayerBullet(Position, direction, speed, Sprite::blueProjectileId);
+            World::SpawnPlayerBullet(Position, direction, speed, Sprite::projectileId);
         }
         else {
-            World::SpawnBullet(Position, direction, speed, Sprite::blueProjectileId);
+            World::SpawnBullet(Position, direction, speed, Sprite::projectileId);
         }
         _canShoot = false;
     }

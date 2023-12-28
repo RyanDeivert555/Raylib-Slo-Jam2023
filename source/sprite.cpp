@@ -9,19 +9,7 @@ namespace Sprite {
     std::vector<std::size_t> shipTextures{};
     std::vector<std::size_t> bulletTextures{};
     std::vector<std::size_t> asteroidTextures{};
-    std::size_t redShip1Id{};
-    std::size_t blueShip1Id{};
-    std::size_t greenShip1Id{};
-    std::size_t orangeShip1Id{};
-    std::size_t redShip2Id{};
-    std::size_t blueShip2Id{};
-    std::size_t greenShip2Id{};
-    std::size_t orangeShip2Id{};
-    std::size_t redShip3Id{};
-    std::size_t blueShip3Id{};
-    std::size_t greenShip3Id{};
-    std::size_t orangeShip3Id{};
-    std::size_t blueProjectileId{};
+    std::size_t projectileId{};
     std::size_t asteroid1Id{};
     std::size_t asteroid2Id{};
     std::size_t asteroid3Id{};
@@ -42,34 +30,9 @@ namespace Sprite {
     }
 
     void Init() {
-        // ships
-        // redShip1Id = AddTexture("../assets/redShip1.png");
-        // blueShip1Id = AddTexture("../assets/blueShip1.png");
-        // greenShip1Id = AddTexture("../assets/greenShip1.png");
-        // orangeShip1Id = AddTexture("../assets/orangeShip1.png");
-        // redShip2Id = AddTexture("../assets/redShip2.png");
-        // blueShip2Id = AddTexture("../assets/blueShip2.png");
-        // greenShip2Id = AddTexture("../assets/greenShip2.png");
-        // orangeShip2Id = AddTexture("../assets/orangeShip2.png");
-        // redShip3Id = AddTexture("../assets/redShip3.png");
-        // blueShip3Id = AddTexture("../assets/blueShip3.png");
-        // greenShip3Id = AddTexture("../assets/greenShip3.png");
-        // orangeShip3Id = AddTexture("../assets/orangeShip3.png");
-        // shipTextures.push_back(redShip1Id);
-        // shipTextures.push_back(blueShip1Id);
-        // shipTextures.push_back(greenShip1Id);
-        // shipTextures.push_back(orangeShip1Id);
-        // shipTextures.push_back(redShip2Id);
-        // shipTextures.push_back(blueShip2Id);
-        // shipTextures.push_back(greenShip2Id);
-        // shipTextures.push_back(orangeShip2Id);
-        // shipTextures.push_back(redShip3Id);
-        // shipTextures.push_back(blueShip3Id);
-        // shipTextures.push_back(greenShip3Id);
-        // shipTextures.push_back(orangeShip3Id);
         // projectiles
-        blueProjectileId = AddTexture("../assets/blueProjectile.png");
-        bulletTextures.push_back(blueProjectileId);
+        projectileId = AddTexture("../assets/projectile.png");
+        bulletTextures.push_back(projectileId);
         // asteroids
         asteroid1Id = AddTexture("../assets/asteroid1.png");
         asteroid2Id = AddTexture("../assets/asteroid2.png");
