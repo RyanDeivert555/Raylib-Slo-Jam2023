@@ -53,8 +53,8 @@ namespace World {
     // sprites not init yet!
     Player player{Sprite::ship0Id};
     const float cameraZoomFactor = 2.0f;
-    const float minZoom = 0.25f;
-    const float maxZoom = 0.75f;
+    const float minZoom = 0.50f;
+    const float maxZoom = 1.0f;
     Camera2D camera{
         .offset = Vector2{windowWidth / 2.0f, windowHeight / 2.0f},
         .target = player.Position,
@@ -237,7 +237,6 @@ namespace World {
         for (const T& e : entities) {
             if (e.ShouldDraw) {
                 e.Draw();
-                DrawRectangleLinesEx(e.GetRect(), 1.0f, GREEN);
             }
         }
     }
@@ -309,7 +308,6 @@ namespace World {
         Sprite::DrawBackground();
         BeginMode2D(camera);
         player.Draw();
-        DrawRectangleLinesEx(player.GetRect(), 1.0f, GREEN);
         DrawEntities(bullets);
         DrawEntities(playerBullets);
         DrawEntities(spaceships);
