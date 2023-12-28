@@ -14,6 +14,8 @@ namespace SFX {
     std::size_t loseId{};
     std::size_t gameStartId{};
     std::size_t gameOverId{};
+    std::size_t pauseId{};
+    std::size_t unpauseId{};
 
     std::size_t AddSound(const char* filePath, float pitch) {
         Sound sound = LoadSound(filePath);
@@ -34,6 +36,8 @@ namespace SFX {
         loseId = AddSound("../assets/lose.ogg");
         gameStartId = AddSound("../assets/game_start.ogg");
         gameOverId = AddSound("../assets/time_out.ogg");
+        pauseId = AddSound("../assets/pause.ogg");
+        unpauseId = AddSound("../assets/unpause.ogg");
     }
 
     void PlaySound(std::size_t id) {

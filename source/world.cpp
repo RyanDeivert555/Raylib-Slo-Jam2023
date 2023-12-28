@@ -271,6 +271,7 @@ namespace World {
                 CullFromSceen(playerBullets);
                 CullFromSceen(asteroids);
                 if (IsKeyPressed(KEY_P) || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_MIDDLE_RIGHT)) {
+                    SFX::PlaySound(SFX::pauseId);
                     state = GameState::Paused;
                 }
                 bool gameOver = DecrementPlayerTimer();
@@ -287,6 +288,7 @@ namespace World {
             case GameState::Paused:
             {
                 if (IsKeyPressed(KEY_P) || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_MIDDLE_RIGHT)) {
+                    SFX::PlaySound(SFX::unpauseId);
                     state = GameState::Gameplay;
                 }
                 break;

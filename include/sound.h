@@ -13,6 +13,8 @@ namespace SFX {
     extern std::size_t loseId;
     extern std::size_t gameStartId;
     extern std::size_t gameOverId;
+    extern std::size_t pauseId;
+    extern std::size_t unpauseId;
 
     std::size_t AddSound(const char* filePath, float pitch=1.0f);
     void Init();
