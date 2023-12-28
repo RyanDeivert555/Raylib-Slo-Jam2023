@@ -13,7 +13,7 @@ Asteroid::Asteroid(int level, std::size_t id) {
     Speed = GetRandomValueF(250.0f, 250.0f * level);
     RotationSpeed = GetRandomValueF(-200.0f, 200.0f);
     _level = level;
-    Scale = Vector2Scale(Scale, _level / (MaxLevel * 2.0f));
+    Scale = Vector2Scale(Vector2{2.0f, 2.0f}, _level / (MaxLevel * 2.0f));
 }
 
 void Asteroid::Split() {
