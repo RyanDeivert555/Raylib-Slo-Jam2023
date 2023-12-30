@@ -29,7 +29,7 @@ Vector2 GetSpawnPoint() {
     Vector2 screenOrigin = GetScreenToWorld2D(Vector2Zero(), World::camera);
     Vector2 screenBounds = GetScreenToWorld2D(Vector2{windowWidth, windowHeight}, World::camera);
     
-    const Vector2 PossibleSpawnPoints[] = {
+    const Vector2 possibleSpawnPoints[] = {
         // top
         GetRandomVector2(-SpawnOffset + screenOrigin.x, screenBounds.x + SpawnOffset, -SpawnOffset + screenOrigin.y, screenOrigin.y),
         // bottom
@@ -41,7 +41,7 @@ Vector2 GetSpawnPoint() {
     };
 
     int randIndex = GetRandomValue(0, 3);
-    return PossibleSpawnPoints[randIndex];
+    return possibleSpawnPoints[randIndex];
 }
 
 namespace World {

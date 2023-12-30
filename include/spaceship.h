@@ -3,12 +3,12 @@
 
 class Spaceship : public Entity {
 protected:
-    bool _canShoot = true;
-    float _attackCooldown = DefaultCooldown;
-    float _currentAttackCooldown = _attackCooldown;
-    bool _vulnerable = true;
-    float _invulerabilityCooldown = DefaultInvulnerabilityCooldown;
-    float _currentInvulerabilityCooldown = _invulerabilityCooldown;
+    bool CanShoot = true;
+    float AttackCooldown = DefaultCooldown;
+    float CurrentAttackCooldown = AttackCooldown;
+    bool Vulnerable = true;
+    float InvulerabilityCooldown = DefaultInvulnerabilityCooldown;
+    float CurrentInvulerabilityCooldown = InvulerabilityCooldown;
     
 public:
     static constexpr float DefaultShield = 100.0f;

@@ -11,7 +11,7 @@ Spaceship::Spaceship(std::size_t id) {
 }
 
 void Spaceship::TakeDamage(float damage) {
-    if (!_vulnerable) {
+    if (!Vulnerable) {
         return;
     }
     SFX::PlaySound(SFX::hitId);
@@ -22,11 +22,11 @@ void Spaceship::TakeDamage(float damage) {
         SFX::PlaySound(SFX::shipExplosionId);
         Kill();
     }
-    _vulnerable = false;
+    Vulnerable = false;
 }
 
 void Spaceship::Shoot() {
-    if (_canShoot) {
+    if (CanShoot) {
         SFX::PlaySound(SFX::projectileShootId);
         Vector2 direction = Vector2{
             cosf(Rotation * DEG2RAD), 
@@ -39,24 +39,24 @@ void Spaceship::Shoot() {
         else {
             World::SpawnBullet(Position, direction, speed, Sprite::projectileId);
         }
-        _canShoot = false;
+        CanShoot = false;
     }
     else {
-        _currentAttackCooldown -= GetFrameTime();
-        if (_currentAttackCooldown <= 0.0f) {
-            _currentAttackCooldown = _attackCooldown;
-            _canShoot = true;
+        CurrentAttackCooldown -= GetFrameTime();
+        if (CurrentAttackCooldown <= 0.0f) {
+            CurrentAttackCooldown = AttackCooldown;
+            CanShoot = true;
         }
     }
 }
 
 void Spaceship::Update() {
     // vulnerability countdown
-    if (!_vulnerable) {
-        _currentInvulerabilityCooldown -= GetFrameTime();
-        if (_currentInvulerabilityCooldown <= 0.0f) {
-            _currentInvulerabilityCooldown = _invulerabilityCooldown;
-            _vulnerable = true;
+    if (!Vulnerable) {
+        CurrentInvulerabilityCooldown -= GetFrameTime();
+        if (CurrentInvulerabilityCooldown <= 0.0f) {
+            CurrentInvulerabilityCooldown = InvulerabilityCooldown;
+            Vulnerable = true;
         }
     }
     // keep rotation between -180 and 180

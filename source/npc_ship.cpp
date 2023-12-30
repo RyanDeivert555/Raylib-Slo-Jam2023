@@ -13,10 +13,10 @@ NpcShip::NpcShip(std::size_t id) : Spaceship(id) {
     MaxShield = GetRandomValueF(50.0f, 150.0f);
     Shield = MaxShield;
     // TODO: get random floats
-    _attackCooldown = GetRandomValueF(0.2f, 0.5f);
-    _currentAttackCooldown = _attackCooldown;
-    _invulerabilityCooldown = 0.5f;
-    _currentInvulerabilityCooldown = _invulerabilityCooldown;
+    AttackCooldown = GetRandomValueF(0.2f, 0.5f);
+    CurrentAttackCooldown = AttackCooldown;
+    InvulerabilityCooldown = 0.5f;
+    CurrentInvulerabilityCooldown = InvulerabilityCooldown;
 }
 
 void NpcShip::rotateToTarget() {

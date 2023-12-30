@@ -10,8 +10,6 @@ Player::Player(std::size_t id) : Spaceship(id) {
 }
 
 void Player::getInput() {
-    //std::cout << GetGamepadAxisMovement(0, GAMEPAD_AXIS_RIGHT_X) << "\n";
-    //std::cout << GetGamepadAxisMovement(0, GAMEPAD_AXIS_RIGHT_Y) << "\n";
     if (IsKeyDown(KEY_D) || static_cast<int>(GetGamepadAxisMovement(0, GAMEPAD_AXIS_RIGHT_X)) == 1) {
         Rotation += RotationSpeed * GetFrameTime();
     }
