@@ -1,5 +1,7 @@
 #include "../include/player.h"
 #include "../include/sprite.h"
+#include "../include/sound.h"
+#include "raylib.h"
 // debug
 #include <iostream>
 
@@ -30,7 +32,9 @@ void Player::getInput() {
 }
 
 void Player::warnNoShields() {
-    if (Shield <= 0.0f) {
+    // so that sound only plays once
+    if (Shield <= 0.0f && !_warnNoShield && _warningTimer > 0.0f) {
+        SFX::PlaySound(SFX::shieldBreakId);
         _warnNoShield = true;
     }
     if (_warnNoShield) {
