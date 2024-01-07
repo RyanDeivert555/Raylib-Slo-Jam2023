@@ -2,8 +2,6 @@
 #include "../include/sprite.h"
 #include "../include/sound.h"
 #include "raylib.h"
-// debug
-#include <iostream>
 
 Player::Player(std::size_t id) : Spaceship(id) {
     IsPlayer = true;

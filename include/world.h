@@ -5,8 +5,8 @@
 #include "player.h"
 #include <vector>
 
-constexpr int windowWidth = 1920; // 1920
-constexpr int windowHeight = 1080; // 1080
+constexpr int windowWidth = 1000; // dev in 1920
+constexpr int windowHeight = 800; // dev in 1080
 
 static constexpr float SpawnOffset = 500.0f;
 

@@ -16,6 +16,7 @@ namespace SFX {
     extern std::size_t pauseId;
     extern std::size_t unpauseId;
     extern std::size_t shieldBreakId;
+    extern Music music;
 
     std::size_t AddSound(const char* filePath, float pitch=1.0f);
     void Init();

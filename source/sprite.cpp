@@ -1,8 +1,6 @@
 #include "../include/sprite.h"
 #include "raylib.h"
 #include "raymath.h"
-// debug
-#include <iostream>
 
 namespace Sprite {
     std::vector<Texture2D> textures{};

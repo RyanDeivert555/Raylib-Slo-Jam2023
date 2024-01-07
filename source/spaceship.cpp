@@ -2,8 +2,6 @@
 #include "../include/sprite.h"
 #include "../include/world.h"
 #include "../include/sound.h"
-// debug
-#include <iostream>
 
 Spaceship::Spaceship(std::size_t id) {
     TextureId = id;
@@ -68,8 +66,8 @@ void Spaceship::Update() {
     }
 
     Direction = Vector2{
-        cos(Rotation * DEG2RAD),
-        sin(Rotation * DEG2RAD)
+        cosf(Rotation * DEG2RAD),
+        sinf(Rotation * DEG2RAD)
     };
 
     Position = Vector2Add(Position, Vector2Scale(Direction, Speed * GetFrameTime()));

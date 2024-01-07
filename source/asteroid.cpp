@@ -2,8 +2,6 @@
 #include "../include/sprite.h"
 #include "../include/world.h"
 #include "../include/sound.h"
-// debug
-#include <iostream>
 
 Asteroid::Asteroid(int level, std::size_t id) {
     TextureId = id;

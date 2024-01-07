@@ -2,10 +2,7 @@
 #include "../include/sprite.h"
 #include "../include/sound.h"
 #include "raylib.h"
-#include "raymath.h"
 #include <type_traits>
-// debug
-#include <iostream>
 
 float GetRandomValueF(float min, float max) {
     if (min > max) {
@@ -53,13 +50,13 @@ namespace World {
     // sprites not init yet!
     Player player{Sprite::ship0Id};
     const float cameraZoomFactor = 2.0f;
-    const float minZoom = 0.50f;
-    const float maxZoom = 1.0f;
+    const float minZoom = 0.25f;
+    const float maxZoom = 0.75f;
     Camera2D camera{
         .offset = Vector2{windowWidth / 2.0f, windowHeight / 2.0f},
         .target = player.Position,
         .rotation = 0.0f,
-        .zoom = maxZoom
+        .zoom = minZoom
     };
     bool supportController = false;
 
@@ -242,6 +239,7 @@ namespace World {
     }
 
     void Update() {
+        UpdateMusicStream(SFX::music);
         CheckGamePad();
         switch (state) {
             case GameState::Logo:
@@ -326,10 +324,10 @@ namespace World {
             {
                 Sprite::DrawBackground();
                 if (supportController) {
-                    Sprite::DrawTextCenter("Press [A] to Start", Vector2Zero(), 75.0f, 10.0f, RAYWHITE);    
+                    Sprite::DrawTextCenter("Press [A] to Start", Vector2Zero(), 60.0f, 10.0f, RAYWHITE);    
                 }
                 else {
-                    Sprite::DrawTextCenter("Press [Enter] to Start", Vector2Zero(), 75.0f, 10.0f, RAYWHITE);      
+                    Sprite::DrawTextCenter("Press [Enter] to Start", Vector2Zero(), 60.0f, 10.0f, RAYWHITE);      
                 }
                 break;
             }

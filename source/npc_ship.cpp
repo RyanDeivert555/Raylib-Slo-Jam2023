@@ -2,8 +2,7 @@
 #include "../include/world.h"
 #include "../include/sound.h"
 #include "raylib.h"
-// debug
-#include <iostream>
+#include <cmath>
 
 NpcShip::NpcShip(std::size_t id) : Spaceship(id) {
     Position = GetSpawnPoint();

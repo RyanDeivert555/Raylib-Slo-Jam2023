@@ -1,7 +1,5 @@
 #include "../include/sound.h"
 #include "raylib.h"
-// debug
-#include <iostream>
 
 namespace SFX {
     std::vector<Sound> sounds{};
@@ -17,6 +15,7 @@ namespace SFX {
     std::size_t pauseId{};
     std::size_t unpauseId{};
     std::size_t shieldBreakId;
+    Music music{};
 
     std::size_t AddSound(const char* filePath, float pitch) {
         Sound sound = LoadSound(filePath);
@@ -40,6 +39,8 @@ namespace SFX {
         pauseId = AddSound("../assets/pause.ogg");
         unpauseId = AddSound("../assets/unpause.ogg");
         shieldBreakId = AddSound("../assets/shield_break.ogg");
+        music = LoadMusicStream("../assets/music.ogg");
+        PlayMusicStream(music);
     }
 
     void PlaySound(std::size_t id) {
@@ -50,6 +51,7 @@ namespace SFX {
         for (auto& sound : sounds) {
             UnloadSound(sound);
         }
+        UnloadMusicStream(music);
         CloseAudioDevice();
     }
 }
